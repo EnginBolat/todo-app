@@ -1,17 +1,57 @@
-# todo_app
+# Flutter - ToDo App
 
-A new Flutter project.
+ToDo App I made with Flutter.
 
-## Getting Started
+## About App
 
-This project is a starting point for a Flutter application.
+Things To Do
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+  ❌ Splash Screen
+  ✅ Intro Screen
+  ✅ Add Todo Page
+  ❌ Home Screen
+  ❌ Calendar Screen
+  ❌ Done Screen
+  ❌ Profile Screen
+  ❌ Database Integration
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Dependencies
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# todo_app
+```bash
+  bloc: https://www.pub.dev/packages/bloc
+  meta: https://www.pub.dev/packages/meta
+  animated_bottom_navigation_bar: https://www.pub.dev/packages/animated_bottom_navigation_bar
+  shared_preferences: https://www.pub.dev/packages/shared_preferences
+  intl: https://www.pub.dev/packages/int
+
+```
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/EnginBolat/todo_app.git
+```
+
+Go to the project directory
+
+```bash
+  cd todo_app
+```
+
+Install dependencies
+
+```bash
+  flutter pub get
+```
+
+Run App
+
+```bash
+  flutter run
+```
+
+
