@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/view/take_name_page/take_name_page.dart';
+import 'package:todo_app/view/intro_page/intro_page.dart';
 
 import '../../service/shared/shared_service.dart';
 import '../bottom_nav_bar_page/bottom_nav_bar_page.dart';
@@ -44,7 +44,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
               color: Theme.of(context).primaryColor,
             )
           : isLogin != true
-              ? TakeNamePage()
+              ? IntroPage()
               : const BottomNavBarPage(),
     );
   }
