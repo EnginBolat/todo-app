@@ -10,6 +10,6 @@ class AppText {
   static String letsstart = "Başla!";
   static String addSometingTodo = "Yapılcak Bir İş Ekle!";
   static String title = "Başlık";
-  static String desc = "Açıklama";
+  static String desc = "Açıklama (İsteğe Bağlı)";
   static String selectDate = "Tarih Seç";
 }
