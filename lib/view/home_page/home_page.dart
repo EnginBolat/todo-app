@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
 
   void takeMessage() {
     changeIsLoading();
-    print("Saat: ${DateTime.now().hour}");
+    // print("Saat: ${DateTime.now().hour}");
     if (DateTime.now().hour > 0 && DateTime.now().hour < 12) {
       message = AppText.goodMorning;
     } else if (DateTime.now().hour > 12 && DateTime.now().hour > 18) {
