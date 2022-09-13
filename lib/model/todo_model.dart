@@ -2,14 +2,18 @@ const String tableNotes = 'todos';
 
 class TodoFields {
   static final List<String> values = [
-    id, isDone, title, description, time,
+    id,
+    isDone,
+    title,
+    description,
+    createdDate,
   ];
 
   static const String id = '_id';
   static const String isDone = 'isDone';
   static const String title = 'title';
   static const String description = 'description';
-  static const String time = 'time';
+  static const String createdDate = 'date';
 }
 
 class Todo {
@@ -17,14 +21,14 @@ class Todo {
   final bool isDone;
   final String title;
   final String description;
-  final DateTime createdTime;
+  final DateTime createdDate;
 
   const Todo({
     this.id,
     required this.isDone,
     required this.title,
     required this.description,
-    required this.createdTime,
+    required this.createdDate,
   });
 
   Todo copy({
@@ -32,14 +36,14 @@ class Todo {
     bool? isDone,
     String? title,
     String? description,
-    DateTime? createdTime,
+    DateTime? createdDate,
   }) =>
       Todo(
         id: id ?? this.id,
         isDone: isDone ?? this.isDone,
         title: title ?? this.title,
         description: description ?? this.description,
-        createdTime: createdTime ?? this.createdTime,
+        createdDate: createdDate ?? this.createdDate,
       );
 
   static Todo fromJson(Map<String, Object?> json) => Todo(
@@ -47,7 +51,7 @@ class Todo {
         isDone: json[TodoFields.isDone] == 1,
         title: json[TodoFields.title] as String,
         description: json[TodoFields.description] as String,
-        createdTime: DateTime.parse(json[TodoFields.time] as String),
+        createdDate: DateTime.parse(json[TodoFields.createdDate] as String),
       );
 
   Map<String, Object?> toJson() => {
@@ -55,6 +59,6 @@ class Todo {
         TodoFields.title: title,
         TodoFields.isDone: isDone ? 1 : 0,
         TodoFields.description: description,
-        TodoFields.time: createdTime.toIso8601String(),
+        TodoFields.createdDate: createdDate.toIso8601String(),
       };
 }
