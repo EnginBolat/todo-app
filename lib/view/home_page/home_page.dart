@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/constants/app_text.dart';
 import 'package:todo_app/service/shared/shared_service.dart';
 
+import '../../service/db/database.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -18,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    TodoDatabase.instance;
     getName();
     takeMessage();
   }
@@ -37,7 +40,6 @@ class _HomePageState extends State<HomePage> {
 
   void takeMessage() {
     changeIsLoading();
-    // print("Saat: ${DateTime.now().hour}");
     if (DateTime.now().hour > 0 && DateTime.now().hour < 12) {
       message = AppText.goodMorning;
     } else if (DateTime.now().hour > 12 && DateTime.now().hour > 18) {
