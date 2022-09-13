@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/model/todo_model.dart';
+import 'package:todo_app/service/db/database_service.dart';
 
 import '../../constants/app_text.dart';
 import '../../service/db/database.dart';
@@ -16,6 +17,7 @@ class AddTodoPage extends StatefulWidget {
 class _AddTodoPageState extends State<AddTodoPage> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descController = TextEditingController();
+  late DatabaseService _dbService;
   late String title;
   late String description;
   late DateTime createdDate;
@@ -28,6 +30,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
     super.initState();
     initializeDateFormatting();
     dateFormat = DateFormat.yMMMMd('tr');
+    _dbService = DatabaseService();
   }
 
   Future addTodo() async {
@@ -124,7 +127,12 @@ class _AddTodoPageState extends State<AddTodoPage> {
         child: ElevatedButton(
           onPressed: () {
             if (titleController.text.isNotEmpty) {
-              addTodo();
+              // addTodo();
+              _dbService.addDataToDatabase(
+                titleController.text,
+                descController.text,
+                _selectedDate,
+              );
               Navigator.pop(context);
             } else {
               // if title controller is empty
