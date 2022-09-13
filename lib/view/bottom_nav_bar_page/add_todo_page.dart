@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app/model/todo_model.dart';
 
 import '../../constants/app_text.dart';
+import '../../service/db/database.dart';
 
 class AddTodoPage extends StatefulWidget {
   const AddTodoPage({Key? key}) : super(key: key);
@@ -13,7 +16,32 @@ class AddTodoPage extends StatefulWidget {
 class _AddTodoPageState extends State<AddTodoPage> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descController = TextEditingController();
-  var _selectedDate;
+  late String title;
+  late String description;
+  late DateTime createdDate;
+  late int createdHour;
+  late DateFormat dateFormat;
+  var _selectedDate = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    initializeDateFormatting();
+    dateFormat = DateFormat.yMMMMd('tr');
+  }
+
+  Future addTodo() async {
+    title = titleController.text;
+    description = descController.text;
+
+    final note = Todo(
+      title: title,
+      isDone: false,
+      description: description,
+      createdDate: createdDate,
+    );
+    await TodoDatabase.instance.create(note);
+  }
 
   void _presentDatePicker() {
     showDatePicker(
@@ -27,6 +55,8 @@ class _AddTodoPageState extends State<AddTodoPage> {
       }
       setState(() {
         _selectedDate = pickedDate;
+        createdDate = _selectedDate;
+        createdHour = pickedDate.hour;
       });
     });
   }
@@ -67,9 +97,9 @@ class _AddTodoPageState extends State<AddTodoPage> {
               children: [
                 Expanded(
                   child: Text(
-                    _selectedDate == null
-                        ? 'Tarih Seçilmedi!'
-                        : 'Seçilen Tarih: ${DateFormat.yMMMMd().format(_selectedDate!)}',
+                    _selectedDate == DateTime.now()
+                        ? dateFormat.format(DateTime.now())
+                        : '${AppText.chosendate}: ${dateFormat.format(_selectedDate)}',
                   ),
                 ),
                 TextButton(
@@ -93,18 +123,14 @@ class _AddTodoPageState extends State<AddTodoPage> {
         height: 40,
         child: ElevatedButton(
           onPressed: () {
-            if (titleController.text.isNotEmpty &&
-                descController.text.isNotEmpty) {
-              descController.clear();
-              titleController.clear();
-              _selectedDate = DateTime.now();
-              print("Title: ${titleController.text}");
-              print("Desc: ${descController.text}");
-              print("Tarih: ${DateFormat.yMMMMd().format(_selectedDate!)}");
+            if (titleController.text.isNotEmpty) {
+              addTodo();
               Navigator.pop(context);
+            } else {
+              // if title controller is empty
             }
           },
-          child: const Text("Ekle"),
+          child: Text(AppText.add),
         ),
       ),
     );
