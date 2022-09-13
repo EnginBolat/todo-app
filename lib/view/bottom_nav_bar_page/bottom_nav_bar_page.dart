@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:todo_app/view/bottom_nav_bar_page/add_todo_page.dart';
 import 'package:todo_app/view/celendar_page/calendar_page.dart';
 import 'package:todo_app/view/done_page/done_page.dart';
@@ -17,7 +16,6 @@ class BottomNavBarPage extends StatefulWidget {
 class _BottomNavBarPageState extends State<BottomNavBarPage> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descController = TextEditingController();
-  var _selectedDate;
 
   final List<Widget> pages = const [
     HomePage(),
@@ -70,7 +68,7 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
     return showModalBottomSheet(
       context: ctx,
       builder: (bctx) {
-        return AddTodoPage();
+        return const AddTodoPage();
       },
     );
   }
