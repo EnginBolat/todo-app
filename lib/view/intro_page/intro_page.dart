@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/service/shared/shared_service.dart';
 
 import '../../constants/app_text.dart';
-import '../profile_page/profile_page.dart';
+import '../bottom_nav_bar_page/bottom_nav_bar_page.dart';
 
 class IntroPage extends StatelessWidget {
   IntroPage({Key? key}) : super(key: key);
@@ -72,7 +72,7 @@ class IntroPage extends StatelessWidget {
               service.setSurname(_surnameController.text);
               service.setUserLogin();
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const ProfilePage()));
+                  MaterialPageRoute(builder: (context) => const BottomNavBarPage()));
             } else {
               return;
             }
