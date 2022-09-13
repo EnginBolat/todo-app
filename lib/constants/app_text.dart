@@ -12,4 +12,8 @@ class AppText {
   static String title = "Başlık";
   static String desc = "Açıklama (İsteğe Bağlı)";
   static String selectDate = "Tarih Seç";
+  static String dateCannotBeEmpty = "Tarih Boş Geçilemez!";
+  static String titleCannotBeEmpty = "Başlık Boş Geçilemez!";
+  static String chosendate = "Seçilen Tarih";
+  static String add = "Ekle";
 }
