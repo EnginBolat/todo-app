@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:todo_app/service/cubit/todo_cubit.dart';
 import 'constants/app_text.dart';
+import 'constants/app_theme.dart';
 import 'view/navigator_page/navigator_page.dart';
 
 void main() {
@@ -13,19 +15,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: AppText.appName,
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(
-          color: Colors.transparent,
-          elevation: 0.0,
-          toolbarHeight: 20,
-          systemOverlayStyle: SystemUiOverlayStyle.dark,
-        ),
-        primarySwatch: Colors.deepPurple,
+    return BlocProvider(
+      create: (context) => TodoCubit(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: AppText.appName,
+        theme: lightTheme,
+        home: const NavigatorPage(),
       ),
-      home: const NavigatorPage(),
     );
   }
 }
