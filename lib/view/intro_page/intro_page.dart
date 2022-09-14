@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/service/shared/shared_service.dart';
 
+import '../../constants/app_padding.dart';
 import '../../constants/app_text.dart';
 import '../bottom_nav_bar_page/bottom_nav_bar_page.dart';
 
@@ -18,7 +19,7 @@ class IntroPage extends StatelessWidget {
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding:  EdgeInsets.all(AppPadding.maxValue),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -26,13 +27,13 @@ class IntroPage extends StatelessWidget {
                 _buildImage(),
                 _buildSpace(50),
                 Text(
-                  AppText.welcome,
+                  IntroPageText.welcome,
                   style: Theme.of(context).textTheme.headline3!.copyWith(
                       color: Colors.black, fontWeight: FontWeight.w600),
                 ),
                 _buildSpace(20),
                 Text(
-                  AppText.canYouTypeYourName,
+                  IntroPageText.canYouTypeYourName,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.subtitle1!.copyWith(
                       color: Colors.grey, fontWeight: FontWeight.normal),
@@ -40,12 +41,12 @@ class IntroPage extends StatelessWidget {
                 _buildSpace(50),
                 CustomTextField(
                   controller: _nameController,
-                  hintText: AppText.yourName,
+                  hintText: IntroPageText.yourName,
                 ),
                 _buildSpace(10),
                 CustomTextField(
                   controller: _surnameController,
-                  hintText: AppText.yourSurname,
+                  hintText: IntroPageText.yourSurname,
                 ),
                 _buildSpace(50),
                 _customStartButton(deviceHeight, deviceWidth, context)
@@ -71,13 +72,15 @@ class IntroPage extends StatelessWidget {
               service.setName(_nameController.text);
               service.setSurname(_surnameController.text);
               service.setUserLogin();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const BottomNavBarPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const BottomNavBarPage()));
             } else {
               return;
             }
           },
-          child: Text(AppText.letsstart),
+          child: Text(IntroPageText.letsstart),
         ),
       ),
     );
@@ -112,25 +115,6 @@ class CustomTextField extends StatelessWidget {
       maxLength: 15,
       decoration: InputDecoration(
         hintText: hintText,
-        hoverColor: Theme.of(context).primaryColor,
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.grey,
-            width: 2.0,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Theme.of(context).primaryColor,
-            width: 2.0,
-          ),
-        ),
-        errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.red,
-            width: 2.0,
-          ),
-        ),
       ),
       controller: controller,
     );
