@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app/constants/app_radius.dart';
 import 'package:todo_app/model/todo_model.dart';
 import 'package:todo_app/service/db/database_service.dart';
 
+import '../../constants/app_padding.dart';
 import '../../constants/app_text.dart';
 import '../../service/db/database.dart';
+import '../bottom_nav_bar_page/bottom_nav_bar_page.dart';
 
 class AddTodoPage extends StatefulWidget {
   const AddTodoPage({Key? key}) : super(key: key);
@@ -50,8 +53,8 @@ class _AddTodoPageState extends State<AddTodoPage> {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2019),
-      lastDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2025),
     ).then((pickedDate) {
       if (pickedDate == null) {
         return;
@@ -66,79 +69,84 @@ class _AddTodoPageState extends State<AddTodoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double deviceHeight = MediaQuery.of(context).size.height;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(AppPadding.minValue),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            children: [
-              Text(
-                AppText.addSometingTodo,
-                style: Theme.of(context).textTheme.headline5!.copyWith(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w800,
-                    ),
-              ),
-              _buildSpace(20.0),
-              AddTodoTextField(
-                hintText: AppText.title,
-                controller: titleController,
-              ),
-              _buildSpace(12.0),
-              AddTodoDescTextField(
-                hintText: AppText.desc,
-                controller: descController,
-              ),
-              _buildSpace(12.0),
-            ],
-          ),
-          SizedBox(
-            height: 70,
-            child: Row(
+          SingleChildScrollView(
+            child: Column(
               children: [
-                Expanded(
-                  child: Text(
-                    _selectedDate == DateTime.now()
-                        ? dateFormat.format(DateTime.now())
-                        : '${AppText.chosendate}: ${dateFormat.format(_selectedDate)}',
-                  ),
+                Text(
+                  AddTodoPageText.addSometingTodo,
+                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w800,
+                      ),
                 ),
-                TextButton(
-                  onPressed: _presentDatePicker,
-                  child: Text(AppText.selectDate),
+                _buildSpace(deviceHeight * 0.025),
+                AddTodoTextField(
+                  hintText: AddTodoPageText.title,
+                  controller: titleController,
+                ),
+                _buildSpace(deviceHeight * 0.015),
+                AddTodoDescTextField(
+                  hintText: AddTodoPageText.desc,
+                  controller: descController,
+                ),
+                _buildSpace(deviceHeight * 0.015),
+                SizedBox(
+                  height: deviceHeight * 0.08,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          _selectedDate == DateTime.now()
+                              ? dateFormat.format(DateTime.now())
+                              : '${AddTodoPageText.chosendate}: ${dateFormat.format(_selectedDate)}',
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: _presentDatePicker,
+                        child: Text(AddTodoPageText.selectDate),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
-          _buildAddTodoButton(),
+          _buildAddTodoButton(deviceHeight * 0.05),
         ],
       ),
     );
   }
 
-  ClipRRect _buildAddTodoButton() {
+  ClipRRect _buildAddTodoButton(height) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(AppRadius.normalValue),
       child: SizedBox(
         width: double.infinity,
-        height: 40,
+        height: height,
         child: ElevatedButton(
           onPressed: () {
             if (titleController.text.isNotEmpty) {
-              // addTodo();
               _dbService.addDataToDatabase(
                 titleController.text,
                 descController.text,
                 _selectedDate,
               );
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const BottomNavBarPage()),
+              );
             } else {
               // if title controller is empty
             }
           },
-          child: Text(AppText.add),
+          child: Text(AddTodoPageText.add),
         ),
       ),
     );
@@ -164,25 +172,6 @@ class AddTodoTextField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
-        hoverColor: Theme.of(context).primaryColor,
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.grey,
-            width: 2.0,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Theme.of(context).primaryColor,
-            width: 2.0,
-          ),
-        ),
-        errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.red,
-            width: 2.0,
-          ),
-        ),
       ),
     );
   }
@@ -205,29 +194,7 @@ class AddTodoDescTextField extends StatelessWidget {
       maxLines: 2,
       controller: controller,
       decoration: InputDecoration(
-        isDense: true,
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 24.0, horizontal: 8.0),
         hintText: hintText,
-        hoverColor: Theme.of(context).primaryColor,
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.grey,
-            width: 2.0,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Theme.of(context).primaryColor,
-            width: 2.0,
-          ),
-        ),
-        errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.red,
-            width: 2.0,
-          ),
-        ),
       ),
     );
   }
