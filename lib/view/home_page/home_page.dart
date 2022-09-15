@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/constants/app_text.dart';
+import 'package:todo_app/model/todo_model.dart';
+import 'package:todo_app/service/db/database_service.dart';
 import 'package:todo_app/service/shared/shared_service.dart';
+import 'package:todo_app/view/bottom_nav_bar_page/bottom_nav_bar_page.dart';
 
 import '../../service/cubit/todo_cubit.dart';
 
@@ -17,6 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String name = "";
   String? message;
+  bool isDone = false;
   SharedService service = SharedService();
   late DateFormat dateFormat;
 
@@ -77,7 +82,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: deviceHeight * 0.04,
                 child: Text(
-                  "${message ?? HomePageText.welcome} ",
+                  "${message ?? HomePageText.welcome} $name ",
                   style: Theme.of(context).textTheme.headline5!.copyWith(
                         fontWeight: FontWeight.w500,
                       ),
@@ -107,10 +112,15 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               state.listTodo.isEmpty
-                  ? Align(
-                      alignment: Alignment.center,
-                      child: Center(
-                        child: Text(HomePageText.addSometingTodo),
+                  ? SizedBox(
+                      height: deviceHeight * 0.5,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          HomePageText.addSometingTodo,
+                          style: Theme.of(context).textTheme.headline3,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     )
                   : SizedBox(
@@ -119,21 +129,77 @@ class _HomePageState extends State<HomePage> {
                         itemCount: state.listTodo.length,
                         itemBuilder: (context, index) {
                           final item = state.listTodo[index];
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(5),
-                            child: Card(
-                              color: Theme.of(context).primaryColor,
-                              child: ListTile(
-                                title: Text(
-                                  item.title,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                  ),
+                          return Slidable(
+                            // The start action pane is the one at the left or the top side.
+                            startActionPane: ActionPane(
+                              // A motion is a widget used to control how the pane animates.
+                              motion: const ScrollMotion(),
+
+                              // A pane can dismiss the Slidable.
+                              dismissible: DismissiblePane(onDismissed: () {}),
+
+                              // All actions are defined in the children parameter.
+                              children: const [
+                                // A SlidableAction can have an icon and/or a label.
+                                SlidableAction(
+                                  onPressed: null,
+                                  backgroundColor: Color(0xFFFE4A49),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.delete,
+                                  label: 'Delete',
                                 ),
-                                subtitle: Text(
-                                  dateFormat.format(item.createdDate),
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                SlidableAction(
+                                  onPressed: null,
+                                  backgroundColor: Color(0xFF21B7CA),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.share,
+                                  label: 'Share',
+                                ),
+                              ],
+                            ),
+
+                            // The end action pane is the one at the right or the bottom side.
+                            endActionPane: ActionPane(
+                              motion: ScrollMotion(),
+                              children: [
+                                SlidableAction(
+                                  // An action can be bigger than the others.
+                                  flex: 2,
+                                  onPressed:  null,
+                                  backgroundColor: Color(0xFF7BC043),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.archive,
+                                  label: 'Archive',
+                                ),
+                                SlidableAction(
+                                  onPressed: null,
+                                  backgroundColor: Color(0xFF0392CF),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.save,
+                                  label: 'Save',
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Card(
+                                color: Theme.of(context).primaryColor,
+                                child: ListTile(
+                                  title: Text(
+                                    item.title,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    dateFormat.format(item.createdDate),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  trailing: _BuildCheckBox(
+                                    isDone: isDone,
+                                    index: item.id!,
                                   ),
                                 ),
                               ),
@@ -146,6 +212,41 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class _BuildCheckBox extends StatefulWidget {
+  _BuildCheckBox({
+    Key? key,
+    required this.isDone,
+    required this.index,
+  }) : super(key: key);
+
+  bool isDone;
+  final int index;
+
+  @override
+  State<_BuildCheckBox> createState() => _BuildCheckBoxState();
+}
+
+class _BuildCheckBoxState extends State<_BuildCheckBox> {
+  @override
+  Widget build(BuildContext context) {
+    return Checkbox(
+      checkColor: Theme.of(context).primaryColor,
+      activeColor: Colors.white,
+      value: widget.isDone,
+      onChanged: (value) {
+        widget.isDone = !widget.isDone;
+        DatabaseService().deleteTodo(widget.index);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const BottomNavBarPage()),
+          (Route<dynamic> route) => false,
+        );
+      },
     );
   }
 }
