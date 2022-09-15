@@ -13,11 +13,7 @@ class TodoCubit extends Cubit<TodoState> {
 
   Future<void> getData() async {
     try {
-      // emit(TodoLoading());
-      // Future.delayed(const Duration(seconds : 5));
       emit(TodoGetData(await DatabaseService().getAllNotes()));
-    // emit(TodoLoading());
-      
     } catch (e) {
       emit(
         TodoGetDataError(BlocErrorText.dataCantFetch),
