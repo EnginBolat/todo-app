@@ -35,4 +35,5 @@ ThemeData lightTheme = ThemeData(
       ),
     ),
   ),
+  unselectedWidgetColor: Colors.white,
 );
