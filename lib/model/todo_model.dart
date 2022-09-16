@@ -18,12 +18,12 @@ class TodoFields {
 
 class Todo {
   final int? id;
-  final bool isDone;
+  bool isDone;
   final String title;
   final String description;
   final DateTime createdDate;
 
-  const Todo({
+  Todo({
     this.id,
     required this.isDone,
     required this.title,
