@@ -129,82 +129,63 @@ class _HomePageState extends State<HomePage> {
                         itemCount: state.listTodo.length,
                         itemBuilder: (context, index) {
                           final item = state.listTodo[index];
-                          return Slidable(
-                            // The start action pane is the one at the left or the top side.
-                            startActionPane: ActionPane(
-                              // A motion is a widget used to control how the pane animates.
-                              motion: const ScrollMotion(),
 
-                              // A pane can dismiss the Slidable.
-                              dismissible: DismissiblePane(onDismissed: () {}),
-
-                              // All actions are defined in the children parameter.
-                              children: const [
-                                // A SlidableAction can have an icon and/or a label.
-                                SlidableAction(
-                                  onPressed: null,
-                                  backgroundColor: Color(0xFFFE4A49),
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.delete,
-                                  label: 'Delete',
-                                ),
-                                SlidableAction(
-                                  onPressed: null,
-                                  backgroundColor: Color(0xFF21B7CA),
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.share,
-                                  label: 'Share',
-                                ),
-                              ],
-                            ),
-
-                            // The end action pane is the one at the right or the bottom side.
-                            endActionPane: ActionPane(
-                              motion: ScrollMotion(),
-                              children: [
-                                SlidableAction(
-                                  // An action can be bigger than the others.
-                                  flex: 2,
-                                  onPressed:  null,
-                                  backgroundColor: Color(0xFF7BC043),
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.archive,
-                                  label: 'Archive',
-                                ),
-                                SlidableAction(
-                                  onPressed: null,
-                                  backgroundColor: Color(0xFF0392CF),
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.save,
-                                  label: 'Save',
-                                ),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
-                              child: Card(
-                                color: Theme.of(context).primaryColor,
-                                child: ListTile(
-                                  title: Text(
-                                    item.title,
-                                    style: const TextStyle(
-                                      color: Colors.white,
+                          return item.isDone == true
+                              ? Text("True")
+                              : Slidable(
+                                  endActionPane: ActionPane(
+                                    motion: const ScrollMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (BuildContext context) {
+                                          DatabaseService()
+                                              .deleteTodo(item.id!)
+                                              .then(
+                                                (value) => Navigator
+                                                    .pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const BottomNavBarPage()),
+                                                  (Route<dynamic> route) =>
+                                                      false,
+                                                ),
+                                              );
+                                        },
+                                        backgroundColor:
+                                            const Color(0xFFFE4A49),
+                                        foregroundColor: Colors.white,
+                                        icon: Icons.delete,
+                                        label: HomePageText.slidableClean,
+                                      ),
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Card(
+                                      color: Theme.of(context).primaryColor,
+                                      child: ListTile(
+                                        title: Text(
+                                          item.title,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          dateFormat.format(item.createdDate),
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        trailing: _BuildCheckBox(
+                                          isDone: isDone,
+                                          index: item.id!,
+                                          item: item,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  subtitle: Text(
-                                    dateFormat.format(item.createdDate),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  trailing: _BuildCheckBox(
-                                    isDone: isDone,
-                                    index: item.id!,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
+                                );
                         },
                       ),
                     )
@@ -218,14 +199,13 @@ class _HomePageState extends State<HomePage> {
 
 // ignore: must_be_immutable
 class _BuildCheckBox extends StatefulWidget {
-  _BuildCheckBox({
-    Key? key,
-    required this.isDone,
-    required this.index,
-  }) : super(key: key);
+  _BuildCheckBox(
+      {Key? key, required this.isDone, required this.index, required this.item})
+      : super(key: key);
 
   bool isDone;
   final int index;
+  Todo item;
 
   @override
   State<_BuildCheckBox> createState() => _BuildCheckBoxState();
@@ -240,12 +220,13 @@ class _BuildCheckBoxState extends State<_BuildCheckBox> {
       value: widget.isDone,
       onChanged: (value) {
         widget.isDone = !widget.isDone;
-        DatabaseService().deleteTodo(widget.index);
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const BottomNavBarPage()),
-          (Route<dynamic> route) => false,
-        );
+        widget.item.isDone = !widget.item.isDone;
+        // Navigator.pushAndRemoveUntil(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => const BottomNavBarPage()),
+        //   (Route<dynamic> route) => false,
+        // );
+        print("Todo");
       },
     );
   }
