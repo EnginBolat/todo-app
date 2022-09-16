@@ -19,7 +19,7 @@ class HomePageText {
   static String addSometingTodo = "Yapılcak Bir İş Ekle!";
   static String waitingTodos = "Bekleyen iş sayınız:";
   static String todos = "İşleriniz";
-
+  static String slidableClean = "Sil";
 
 }
 
