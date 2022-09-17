@@ -28,6 +28,7 @@ Dependencies
   shared_preferences: https://www.pub.dev/packages/shared_preferences
   intl: https://www.pub.dev/packages/int
   sqflite: https://www.pub.dev/packages/sqflite
+  flutter_slidable: https://pub.dev/packages/flutter_slidable
 ```
 
 ## Run Locally
