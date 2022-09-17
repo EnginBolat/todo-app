@@ -69,12 +69,19 @@ CREATE TABLE $tableNotes (
     final db = await instance.database;
 
     const orderBy = '${TodoFields.createdDate} ASC';
-    // final result =
-    //     await db.rawQuery('SELECT * FROM $tableNotes ORDER BY $orderBy');
-
     final result = await db.query(tableNotes, orderBy: orderBy);
-
     return result.map((json) => Todo.fromJson(json)).toList();
+  }
+
+  Future<int> updateIsDone(Todo note, bool isDone) async {
+    final db = await instance.database;
+
+    return db.update(
+      tableNotes,
+      note.toJson(),
+      where: '${TodoFields.isDone} = $isDone',
+      whereArgs: [note.isDone],
+    );
   }
 
   Future<int> update(Todo note) async {
