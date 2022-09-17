@@ -20,6 +20,7 @@ class HomePageText {
   static String waitingTodos = "Bekleyen iş sayınız:";
   static String todos = "İşleriniz";
   static String slidableClean = "Sil";
+  static String slidableDone = "Yapıldı";
 
 }
 
