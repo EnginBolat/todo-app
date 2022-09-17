@@ -3,8 +3,10 @@ import 'database.dart';
 
 abstract class IPostService {
   Future<void> addDataToDatabase(title, description, createdDate);
-  Future<void> deleteTodo(noteId);
+  Future<void> deleteTodo(id);
   Future<List<Todo>> getAllNotes();
+  Future<List<Todo>> getDoneTodos();
+  Future<void> changeIsDone(note);
 }
 
 class DatabaseService implements IPostService {
@@ -20,12 +22,36 @@ class DatabaseService implements IPostService {
   }
 
   @override
-  Future<void> deleteTodo(noteId) async {
-    await TodoDatabase.instance.delete(noteId);
+  Future<void> deleteTodo(id) async {
+    await TodoDatabase.instance.delete(id);
   }
 
   @override
   Future<List<Todo>> getAllNotes() async {
-    return await TodoDatabase.instance.readAllNotes();
+    List<Todo> todos = await TodoDatabase.instance.readAllNotes();
+    List<Todo> isDoneFalse = [];
+    for (var i = 0; i < todos.length; i++) {
+      if (todos[i].isDone == false) {
+        isDoneFalse.add(todos[i]);
+      }
+    }
+    return isDoneFalse;
+  }
+
+  @override
+  Future<List<Todo>> getDoneTodos() async {
+    List<Todo> todos = await TodoDatabase.instance.readAllNotes();
+    List<Todo> isDoneTrue = [];
+    for (var i = 0; i < todos.length; i++) {
+      if (todos[i].isDone != false) {
+        isDoneTrue.add(todos[i]);
+      }
+    }
+    return isDoneTrue;
+  }
+
+  @override
+  Future<void> changeIsDone(note) {
+    return TodoDatabase.instance.update(note);
   }
 }
