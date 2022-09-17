@@ -4,12 +4,13 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/constants/app_text.dart';
-import 'package:todo_app/model/todo_model.dart';
 import 'package:todo_app/service/db/database_service.dart';
 import 'package:todo_app/service/shared/shared_service.dart';
 import 'package:todo_app/view/bottom_nav_bar_page/bottom_nav_bar_page.dart';
+import 'package:todo_app/widgets/slidable_action_pane.dart';
 
 import '../../service/cubit/todo_cubit.dart';
+import '../../widgets/todo_list_tile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -79,155 +80,139 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                height: deviceHeight * 0.04,
-                child: Text(
-                  "${message ?? HomePageText.welcome} $name ",
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                        fontWeight: FontWeight.w500,
-                      ),
-                ),
-              ),
+              _buildTitleText(deviceHeight, context),
               SizedBox(
                 height: deviceHeight * 0.05,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  children: [
-                    Text(HomePageText.todos,
-                        style: Theme.of(context).textTheme.headline4),
-                    const Icon(Icons.date_range, size: 32),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "${HomePageText.waitingTodos} ${state.listTodo.length}",
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                ),
-              ),
+              _buildJobsText(context),
+              _buildJobCounter(state, context),
               state.listTodo.isEmpty
-                  ? SizedBox(
-                      height: deviceHeight * 0.5,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          HomePageText.addSometingTodo,
-                          style: Theme.of(context).textTheme.headline3,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    )
-                  : SizedBox(
-                      height: deviceHeight - (deviceHeight * 0.2),
-                      child: ListView.builder(
-                        itemCount: state.listTodo.length,
-                        itemBuilder: (context, index) {
-                          final item = state.listTodo[index];
-
-                          return item.isDone == true
-                              ? Text("True")
-                              : Slidable(
-                                  endActionPane: ActionPane(
-                                    motion: const ScrollMotion(),
-                                    children: [
-                                      SlidableAction(
-                                        onPressed: (BuildContext context) {
-                                          DatabaseService()
-                                              .deleteTodo(item.id!)
-                                              .then(
-                                                (value) => Navigator
-                                                    .pushAndRemoveUntil(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          const BottomNavBarPage()),
-                                                  (Route<dynamic> route) =>
-                                                      false,
-                                                ),
-                                              );
-                                        },
-                                        backgroundColor:
-                                            const Color(0xFFFE4A49),
-                                        foregroundColor: Colors.white,
-                                        icon: Icons.delete,
-                                        label: HomePageText.slidableClean,
-                                      ),
-                                    ],
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(5),
-                                    child: Card(
-                                      color: Theme.of(context).primaryColor,
-                                      child: ListTile(
-                                        title: Text(
-                                          item.title,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        subtitle: Text(
-                                          dateFormat.format(item.createdDate),
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        trailing: _BuildCheckBox(
-                                          isDone: isDone,
-                                          index: item.id!,
-                                          item: item,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                        },
-                      ),
-                    )
+                  ? _buildIfNoJobAvalible(deviceHeight, context)
+                  : _buildIfJobAvalible(deviceHeight, state)
             ],
           ),
         ),
       ),
     );
   }
-}
 
-// ignore: must_be_immutable
-class _BuildCheckBox extends StatefulWidget {
-  _BuildCheckBox(
-      {Key? key, required this.isDone, required this.index, required this.item})
-      : super(key: key);
+  SizedBox _buildIfJobAvalible(double deviceHeight, TodoGetData state) {
+    return SizedBox(
+      height: deviceHeight - (deviceHeight * 0.2),
+      child: ListView.builder(
+        itemCount: state.listTodo.length,
+        itemBuilder: (context, index) {
+          final item = state.listTodo[index];
 
-  bool isDone;
-  final int index;
-  Todo item;
+          return Slidable(
+              endActionPane: ActionPane(
+                motion: const ScrollMotion(),
+                children: [
+                  SlidableActionPaneWidget(
+                    backgroundColor: Theme.of(context).errorColor,
+                    foregroundColor: Colors.white,
+                    label: HomePageText.slidableClean,
+                    icon: Icons.delete,
+                    item: item,
+                    function: (BuildContext context) {
+                      DatabaseService().deleteTodo(item.id!).then(
+                            (value) => Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const BottomNavBarPage()),
+                              (Route<dynamic> route) => false,
+                            ),
+                          );
+                    },
+                  ),
+                  SlidableActionPaneWidget(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    label: HomePageText.slidableClean,
+                    icon: Icons.done,
+                    item: item,
+                    function: (BuildContext context) {
+                      item.isDone = true;
+                      final itemCopy = item.copy(
+                          title: item.title,
+                          createdDate: item.createdDate,
+                          description: item.description,
+                          isDone: item.isDone);
+                      DatabaseService().changeIsDone(itemCopy).then(
+                            (value) => Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const BottomNavBarPage()),
+                              (Route<dynamic> route) => false,
+                            ),
+                          );
+                    },
+                  ),
+                ],
+              ),
+              child: TodoListTileWidget(
+                borderRadius: 5.0,
+                createDate: item.createdDate,
+                title: item.title,
+                dateFormat: dateFormat,
+              ));
+        },
+      ),
+    );
+  }
 
-  @override
-  State<_BuildCheckBox> createState() => _BuildCheckBoxState();
-}
+  SizedBox _buildIfNoJobAvalible(double deviceHeight, BuildContext context) {
+    return SizedBox(
+      height: deviceHeight * 0.5,
+      child: Align(
+        alignment: Alignment.center,
+        child: Text(
+          HomePageText.addSometingTodo,
+          style: Theme.of(context).textTheme.headline3,
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
 
-class _BuildCheckBoxState extends State<_BuildCheckBox> {
-  @override
-  Widget build(BuildContext context) {
-    return Checkbox(
-      checkColor: Theme.of(context).primaryColor,
-      activeColor: Colors.white,
-      value: widget.isDone,
-      onChanged: (value) {
-        widget.isDone = !widget.isDone;
-        widget.item.isDone = !widget.item.isDone;
-        // Navigator.pushAndRemoveUntil(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => const BottomNavBarPage()),
-        //   (Route<dynamic> route) => false,
-        // );
-        print("Todo");
-      },
+  Padding _buildJobCounter(TodoGetData state, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          "${HomePageText.waitingTodos} ${state.listTodo.length}",
+          style: Theme.of(context).textTheme.headline6,
+        ),
+      ),
+    );
+  }
+
+  Padding _buildJobsText(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Row(
+        children: [
+          Text(HomePageText.todos,
+              style: Theme.of(context).textTheme.headline4),
+          const Icon(Icons.date_range, size: 32),
+        ],
+      ),
+    );
+  }
+
+  SizedBox _buildTitleText(double deviceHeight, BuildContext context) {
+    return SizedBox(
+      height: deviceHeight * 0.04,
+      child: Text(
+        "${message ?? HomePageText.welcome} $name ",
+        style: Theme.of(context).textTheme.headline5!.copyWith(
+              fontWeight: FontWeight.w500,
+            ),
+      ),
     );
   }
 }
+
