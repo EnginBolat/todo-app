@@ -12,8 +12,8 @@ Things To Do
   ✅ Add Todo Page
   ✅ Home Screen
   ❌ Calendar Screen
-  ❌ Done Screen
-  ❌ Profile Screen
+  ✅ Done Screen
+  ✅ Profile Screen
   ✅ Database Integration
   ✅ Bloc Integration
 ```
@@ -29,6 +29,7 @@ Dependencies
   intl: https://www.pub.dev/packages/int
   sqflite: https://www.pub.dev/packages/sqflite
   flutter_slidable: https://pub.dev/packages/flutter_slidable
+  table_calendar:https://pub.dev/packages/table_calendar
 ```
 
 ## Run Locally
