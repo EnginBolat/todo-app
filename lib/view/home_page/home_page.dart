@@ -6,9 +6,10 @@ import 'package:intl/intl.dart';
 import 'package:todo_app/constants/app_text.dart';
 import 'package:todo_app/service/db/database_service.dart';
 import 'package:todo_app/service/shared/shared_service.dart';
-import 'package:todo_app/view/bottom_nav_bar_page/bottom_nav_bar_page.dart';
 import 'package:todo_app/widgets/slidable_action_pane.dart';
 
+import '../../constants/app_padding.dart';
+import '../../constants/app_radius.dart';
 import '../../service/cubit/todo_cubit.dart';
 import '../../widgets/todo_list_tile.dart';
 
@@ -74,18 +75,22 @@ class _HomePageState extends State<HomePage> {
   SingleChildScrollView _buildGetData(
       double deviceHeight, BuildContext context, TodoGetData state) {
     return SingleChildScrollView(
+      physics: const NeverScrollableScrollPhysics(),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(AppPadding.minValue),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               _buildTitleText(deviceHeight, context),
               SizedBox(
-                height: deviceHeight * 0.05,
+                height: deviceHeight * 0.03,
               ),
               _buildJobsText(context),
               _buildJobCounter(state, context),
+              SizedBox(
+                height: deviceHeight * 0.02,
+              ),
               state.listTodo.isEmpty
                   ? _buildIfNoJobAvalible(deviceHeight, context)
                   : _buildIfJobAvalible(deviceHeight, state)
@@ -109,27 +114,25 @@ class _HomePageState extends State<HomePage> {
                 motion: const ScrollMotion(),
                 children: [
                   SlidableActionPaneWidget(
+                    context: context,
                     backgroundColor: Theme.of(context).errorColor,
                     foregroundColor: Colors.white,
                     label: HomePageText.slidableClean,
                     icon: Icons.delete,
                     item: item,
                     function: (BuildContext context) {
-                      DatabaseService().deleteTodo(item.id!).then(
-                            (value) => Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const BottomNavBarPage()),
-                              (Route<dynamic> route) => false,
-                            ),
-                          );
+                      DatabaseService()
+                          .deleteTodo(item.id!)
+                          .then((value) => setState(() {
+                                state.listTodo.remove(item);
+                              }));
                     },
                   ),
                   SlidableActionPaneWidget(
+                    context: context,
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
-                    label: HomePageText.slidableClean,
+                    label: HomePageText.slidableDone,
                     icon: Icons.done,
                     item: item,
                     function: (BuildContext context) {
@@ -139,21 +142,17 @@ class _HomePageState extends State<HomePage> {
                           createdDate: item.createdDate,
                           description: item.description,
                           isDone: item.isDone);
-                      DatabaseService().changeIsDone(itemCopy).then(
-                            (value) => Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const BottomNavBarPage()),
-                              (Route<dynamic> route) => false,
-                            ),
-                          );
+                      DatabaseService()
+                          .changeIsDone(itemCopy)
+                          .then((value) => setState(() {
+                                state.listTodo.remove(item);
+                              }));
                     },
                   ),
                 ],
               ),
               child: TodoListTileWidget(
-                borderRadius: 5.0,
+                borderRadius: AppRadius.minValue,
                 createDate: item.createdDate,
                 title: item.title,
                 dateFormat: dateFormat,
@@ -179,7 +178,7 @@ class _HomePageState extends State<HomePage> {
 
   Padding _buildJobCounter(TodoGetData state, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.minValue),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
@@ -192,7 +191,7 @@ class _HomePageState extends State<HomePage> {
 
   Padding _buildJobsText(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.minValue),
       child: Row(
         children: [
           Text(HomePageText.todos,
@@ -215,4 +214,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
