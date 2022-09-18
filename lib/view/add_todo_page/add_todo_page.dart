@@ -140,7 +140,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
               );
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const BottomNavBarPage()),
+                MaterialPageRoute(builder: (context) => const BottomNavBarPage(index: 2)),
               );
             } else {
               // if title controller is empty
