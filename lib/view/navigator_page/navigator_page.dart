@@ -45,7 +45,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
             )
           : isLogin != true
               ? IntroPage()
-              : const BottomNavBarPage(),
+              : const BottomNavBarPage(index: 0),
     );
   }
 }
