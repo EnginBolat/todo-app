@@ -7,7 +7,8 @@ import 'package:todo_app/view/profile_page/profile_page.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
 class BottomNavBarPage extends StatefulWidget {
-  const BottomNavBarPage({Key? key}) : super(key: key);
+  const BottomNavBarPage({Key? key, required this.index}) : super(key: key);
+  final int index;
 
   @override
   State<BottomNavBarPage> createState() => _BottomNavBarPageState();
@@ -17,11 +18,11 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descController = TextEditingController();
 
-  final List<Widget> pages = const [
-    HomePage(),
-    CalendarPage(),
-    DonePage(),
-    ProfilePage(),
+  final List<Widget> pages = [
+    const HomePage(),
+    const CalendarPage(),
+    const DonePage(),
+    const ProfilePage(),
   ];
 
   final List<IconData> icons = [
@@ -31,8 +32,14 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
     Icons.person
   ];
 
-  int currentIndex = 0;
+  late int currentIndex;
   Widget currentPage = const HomePage();
+
+  @override
+  void initState() {
+    super.initState();
+    currentIndex = widget.index;
+  }
 
   @override
   Widget build(BuildContext context) {
