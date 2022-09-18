@@ -64,4 +64,5 @@ enum Keywords {
   name,
   surname,
   isLoginned,
+  counter,
 }
