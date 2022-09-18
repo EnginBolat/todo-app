@@ -75,7 +75,7 @@ class IntroPage extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const BottomNavBarPage()));
+                      builder: (context) => const BottomNavBarPage(index: 0)));
             } else {
               return;
             }
