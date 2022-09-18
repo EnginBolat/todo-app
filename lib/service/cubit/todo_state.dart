@@ -14,6 +14,16 @@ class TodoGetData extends TodoState {
   TodoGetData(this.listTodo);
 }
 
+class TodoDoneData extends TodoState {
+  final List<Todo> listTodo;
+  TodoDoneData(this.listTodo);
+}
+
+class TodoCalendarPageData extends TodoState {
+  final List<Todo> listTodo;
+  TodoCalendarPageData(this.listTodo);
+}
+
 class TodoGetDataError extends TodoState {
   final String errorMessage;
   TodoGetDataError(this.errorMessage);

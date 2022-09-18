@@ -22,7 +22,17 @@ class TodoCubit extends Cubit<TodoState> {
 
    Future<void> getDoneData() async {
     try {
-      emit(TodoGetData(await DatabaseService().getDoneTodos()));
+      emit(TodoDoneData(await DatabaseService().getDoneTodos()));
+    } catch (e) {
+      emit(
+        TodoGetDataError(BlocErrorText.dataCantFetch),
+      );
+    }
+  }
+
+  Future<void> getCalendarPageData() async {
+    try {
+      emit(TodoCalendarPageData(await DatabaseService().getAllNotes()));
     } catch (e) {
       emit(
         TodoGetDataError(BlocErrorText.dataCantFetch),
