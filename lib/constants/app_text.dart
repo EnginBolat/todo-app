@@ -21,7 +21,6 @@ class HomePageText {
   static String todos = "İşleriniz";
   static String slidableClean = "Sil";
   static String slidableDone = "Yapıldı";
-
 }
 
 class AddTodoPageText {
@@ -37,10 +36,23 @@ class AddTodoPageText {
 
 class CalendarPageText {}
 
-class DonePageText {}
+class DonePageText {
+  static String complateSomeTodo = "Yapılacak işlerini tamamla!";
+  static String complateTodoCount = "Biten iş sayınız:";
+  static String complateTodo = "İşleriniz";
+  static String slidableClean = "Sil";
+  static String slidableNotDone = "Yapılmadı";
+}
 
-class ProfileTodoPage {}
+class ProfilePageText {
+  static String needTodo = "Yapılacak İşleriniz";
+  static String doneTodo = "Yapılmış İşleriniz";
+  static String allTodo = "Tüm İşleriniz";
+  static String yourName = "Adınız...";
+  static String yourSurname = "Soyadınız...";
+  static String updateName = "Güncelle!";
+}
 
-class BlocErrorText{
-  static String  dataCantFetch= "Veri Çekilemedi";
+class BlocErrorText {
+  static String dataCantFetch = "Veri Çekilemedi";
 }
