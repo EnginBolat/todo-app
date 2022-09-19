@@ -245,12 +245,11 @@ class BuildInfoBox extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.headline6!.copyWith(
-                    color: Colors.white,
-                  ),
-            ),
+            Text(title,
+                style: Theme.of(context).textTheme.headline6!.copyWith(
+                      color: Colors.white,
+                    ),
+                textAlign: TextAlign.center),
             SpacerWidget(
               deviceHeight: deviceHeight,
               coefficient: 0.01,
@@ -297,12 +296,11 @@ class BuildAllInfoBox extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.headline6!.copyWith(
-                    color: Colors.white,
-                  ),
-            ),
+            Text(title,
+                style: Theme.of(context).textTheme.headline6!.copyWith(
+                      color: Colors.white,
+                    ),
+                textAlign: TextAlign.center),
             SpacerWidget(
               deviceHeight: deviceHeight,
               coefficient: 0.01,
