@@ -34,7 +34,9 @@ class AddTodoPageText {
   static String add = "Ekle";
 }
 
-class CalendarPageText {}
+class CalendarPageText {
+  static String todayYouHaveNotAnyJob = "Bugün Yapılacak Bir İşiniz Yok!";
+}
 
 class DonePageText {
   static String complateSomeTodo = "Yapılacak işlerini tamamla!";
@@ -45,8 +47,8 @@ class DonePageText {
 }
 
 class ProfilePageText {
-  static String needTodo = "Yapılacak İşleriniz";
-  static String doneTodo = "Yapılmış İşleriniz";
+  static String needTodo = "Yapılacak\n İşleriniz";
+  static String doneTodo = "Yapılmış\n İşleriniz";
   static String allTodo = "Tüm İşleriniz";
   static String yourName = "Adınız...";
   static String yourSurname = "Soyadınız...";
