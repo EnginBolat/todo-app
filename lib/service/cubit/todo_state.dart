@@ -20,7 +20,7 @@ class TodoDoneData extends TodoState {
 }
 
 class TodoCalendarPageData extends TodoState {
-  final List<Todo> listTodo;
+  final List<Todo>? listTodo;
   TodoCalendarPageData(this.listTodo);
 }
 
