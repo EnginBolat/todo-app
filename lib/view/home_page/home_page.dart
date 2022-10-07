@@ -11,7 +11,6 @@ import 'package:todo_app/widgets/slidable_action_pane.dart';
 
 import '../../constants/app_padding.dart';
 import '../../constants/app_radius.dart';
-import '../../model/todo_model.dart';
 import '../../service/cubit/todo_cubit.dart';
 import '../../widgets/todo_list_tile.dart';
 
@@ -153,11 +152,12 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               child: GestureDetector(
-                onTap: () async{
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TodoDetailsPage(id: item.id!)));
+                onTap: () async {
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => TodoDetailsPage(id: item.id!)));
+                  _buildBottomSheet(context, item.id!);
                 },
                 child: TodoListTileWidget(
                   borderRadius: AppRadius.minValue,
@@ -222,4 +222,13 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+Future<dynamic> _buildBottomSheet(BuildContext ctx, int id) {
+  return showModalBottomSheet(
+    context: ctx,
+    builder: (bctx) {
+      return TodoDetailsPage(id: id);
+    },
+  );
 }
