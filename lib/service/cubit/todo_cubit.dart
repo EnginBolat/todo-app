@@ -20,7 +20,7 @@ class TodoCubit extends Cubit<TodoState> {
     }
   }
 
-   Future<void> getDoneData() async {
+  Future<void> getDoneData() async {
     try {
       emit(TodoDoneData(await DatabaseService().getDoneTodos()));
     } catch (e) {
@@ -37,6 +37,14 @@ class TodoCubit extends Cubit<TodoState> {
       emit(
         TodoGetDataError(BlocErrorText.dataCantFetch),
       );
+    }
+  }
+
+  Future<void> getTodoById(int id) async {
+    try {
+      emit(GetTodoById(await DatabaseService().getTodoById(id)));
+    } catch (e) {
+      emit(TodoGetDataError(BlocErrorText.dataCantFetch));
     }
   }
 }

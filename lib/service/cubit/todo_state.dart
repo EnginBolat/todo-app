@@ -28,3 +28,8 @@ class TodoGetDataError extends TodoState {
   final String errorMessage;
   TodoGetDataError(this.errorMessage);
 }
+
+class GetTodoById extends TodoState {
+  final Todo? todoItem; 
+  GetTodoById(this.todoItem);
+}
