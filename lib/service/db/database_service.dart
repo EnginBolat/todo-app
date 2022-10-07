@@ -1,3 +1,5 @@
+import 'package:sqflite/sqlite_api.dart';
+
 import '../../model/todo_model.dart';
 import 'database.dart';
 
@@ -8,6 +10,7 @@ abstract class IPostService {
   Future<List<Todo>> getDoneTodos();
   Future<void> changeIsDone(note);
   Future<Todo> getTodoById(id);
+  Future<void> updateTodo(title, description, createdDate);
 }
 
 class DatabaseService implements IPostService {
@@ -61,5 +64,16 @@ class DatabaseService implements IPostService {
     Todo item = await TodoDatabase.instance.readNote(id);
     Future.delayed(const Duration(seconds: 1));
     return item;
+  }
+
+  @override
+  Future<void> updateTodo(title, description, createdDate) async {
+    final note = Todo(
+      title: title,
+      isDone: false,
+      description: description,
+      createdDate: createdDate,
+    );
+    await TodoDatabase.instance.update(note);
   }
 }
