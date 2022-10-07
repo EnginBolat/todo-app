@@ -11,7 +11,7 @@ Things To Do
   ✅ Intro Screen
   ✅ Add Todo Page
   ✅ Home Screen
-  ❌ Calendar Screen
+  ✅ Calendar Screen
   ✅ Done Screen
   ✅ Profile Screen
   ✅ Database Integration
