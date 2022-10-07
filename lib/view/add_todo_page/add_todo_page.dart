@@ -70,56 +70,59 @@ class _AddTodoPageState extends State<AddTodoPage> {
   @override
   Widget build(BuildContext context) {
     final double deviceHeight = MediaQuery.of(context).size.height;
-    return Padding(
-      padding: EdgeInsets.all(AppPadding.minValue),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                Text(
-                  AddTodoPageText.addSometingTodo,
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w800,
-                      ),
-                ),
-                _buildSpace(deviceHeight * 0.025),
-                AddTodoTextField(
-                  hintText: AddTodoPageText.title,
-                  controller: titleController,
-                ),
-                _buildSpace(deviceHeight * 0.015),
-                AddTodoDescTextField(
-                  hintText: AddTodoPageText.desc,
-                  controller: descController,
-                ),
-                _buildSpace(deviceHeight * 0.015),
-                SizedBox(
-                  height: deviceHeight * 0.08,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          _selectedDate == DateTime.now()
-                              ? dateFormat.format(DateTime.now())
-                              : '${AddTodoPageText.chosendate}: ${dateFormat.format(_selectedDate)}',
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: deviceHeight * .6,
+        child: Padding(
+          padding: EdgeInsets.all(AppPadding.minValue),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    AddTodoPageText.addSometingTodo,
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w800,
                         ),
-                      ),
-                      TextButton(
-                        onPressed: _presentDatePicker,
-                        child: Text(AddTodoPageText.selectDate),
-                      ),
-                    ],
                   ),
-                ),
-              ],
-            ),
+                  _buildSpace(deviceHeight * 0.025),
+                  AddTodoTextField(
+                    hintText: AddTodoPageText.title,
+                    controller: titleController,
+                  ),
+                  _buildSpace(deviceHeight * 0.015),
+                  AddTodoDescTextField(
+                    hintText: AddTodoPageText.desc,
+                    controller: descController,
+                  ),
+                  _buildSpace(deviceHeight * 0.015),
+                  SizedBox(
+                    height: deviceHeight * 0.08,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            _selectedDate == DateTime.now()
+                                ? dateFormat.format(DateTime.now())
+                                : '${AddTodoPageText.chosendate}: ${dateFormat.format(_selectedDate)}',
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: _presentDatePicker,
+                          child: Text(AddTodoPageText.selectDate),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              _buildAddTodoButton(deviceHeight * 0.05),
+            ],
           ),
-          _buildAddTodoButton(deviceHeight * 0.05),
-        ],
+        ),
       ),
     );
   }
