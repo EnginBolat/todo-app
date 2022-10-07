@@ -6,6 +6,7 @@ import 'package:todo_app/service/shared/shared_service.dart';
 import '../../constants/app_radius.dart';
 import '../../constants/app_text.dart';
 import '../../service/db/database_service.dart';
+import '../../widgets/spacer_widget.dart';
 import '../bottom_nav_bar_page/bottom_nav_bar_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -221,21 +222,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-class SpacerWidget extends StatelessWidget {
-  const SpacerWidget(
-      {Key? key, required this.deviceHeight, required this.coefficient})
-      : super(key: key);
 
-  final double deviceHeight;
-  final double coefficient;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: deviceHeight * coefficient,
-    );
-  }
-}
 
 class BuildInfoBox extends StatelessWidget {
   const BuildInfoBox({
