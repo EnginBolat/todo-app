@@ -138,9 +138,10 @@ class _AddTodoPageState extends State<AddTodoPage> {
                 descController.text,
                 _selectedDate,
               );
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const BottomNavBarPage(index: 2)),
+                MaterialPageRoute(
+                    builder: (context) => const BottomNavBarPage()),
               );
             } else {
               // if title controller is empty

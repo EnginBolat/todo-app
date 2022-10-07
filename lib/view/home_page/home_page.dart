@@ -6,10 +6,12 @@ import 'package:intl/intl.dart';
 import 'package:todo_app/constants/app_text.dart';
 import 'package:todo_app/service/db/database_service.dart';
 import 'package:todo_app/service/shared/shared_service.dart';
+import 'package:todo_app/view/todo_details_page/todo_details_page.dart';
 import 'package:todo_app/widgets/slidable_action_pane.dart';
 
 import '../../constants/app_padding.dart';
 import '../../constants/app_radius.dart';
+import '../../model/todo_model.dart';
 import '../../service/cubit/todo_cubit.dart';
 import '../../widgets/todo_list_tile.dart';
 
@@ -108,7 +110,6 @@ class _HomePageState extends State<HomePage> {
         itemCount: state.listTodo.length,
         itemBuilder: (context, index) {
           final item = state.listTodo[index];
-
           return Slidable(
               endActionPane: ActionPane(
                 motion: const ScrollMotion(),
@@ -151,11 +152,19 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              child: TodoListTileWidget(
-                borderRadius: AppRadius.minValue,
-                createDate: item.createdDate,
-                title: item.title,
-                dateFormat: dateFormat,
+              child: GestureDetector(
+                onTap: () async{
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TodoDetailsPage(id: item.id!)));
+                },
+                child: TodoListTileWidget(
+                  borderRadius: AppRadius.minValue,
+                  createDate: item.createdDate,
+                  title: item.title,
+                  dateFormat: dateFormat,
+                ),
               ));
         },
       ),

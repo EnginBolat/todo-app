@@ -7,8 +7,7 @@ import 'package:todo_app/view/profile_page/profile_page.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
 class BottomNavBarPage extends StatefulWidget {
-  const BottomNavBarPage({Key? key, required this.index}) : super(key: key);
-  final int index;
+  const BottomNavBarPage({Key? key}) : super(key: key);
 
   @override
   State<BottomNavBarPage> createState() => _BottomNavBarPageState();
@@ -38,7 +37,7 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
   @override
   void initState() {
     super.initState();
-    currentIndex = widget.index;
+    currentIndex = 0;
   }
 
   @override

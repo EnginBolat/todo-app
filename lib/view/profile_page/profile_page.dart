@@ -128,57 +128,67 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
         ),
         IconButton(
-          onPressed: () {
-            _buildUpdateName(context);
-          },
-          icon: const Icon(
-            Icons.edit,
-          ),
-        )
+            onPressed: () {
+              _buildUpdateName(context);
+            },
+            icon: const Icon(Icons.edit))
       ],
     );
   }
 
   Future<dynamic> _buildUpdateName(BuildContext context) {
     return showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (context) {
-        return Padding(
-          padding: EdgeInsets.all(AppPadding.normalValue),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.6,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: CustomTextField(
-                      controller: nameController,
-                      hintText: ProfilePageText.yourName,
+        
+        return Scaffold(
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(AppPadding.maxValue),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SpacerWidget(deviceHeight: MediaQuery.of(context).size.height ,coefficient: 0.05),
+                    const Text("İsimini Güncelle!"),
+                    SpacerWidget(deviceHeight: MediaQuery.of(context).size.height ,coefficient: 0.05),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: CustomTextField(
+                        controller: nameController,
+                        hintText: ProfilePageText.yourName,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: CustomTextField(
-                      controller: surnameController,
-                      hintText: ProfilePageText.yourSurname,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: CustomTextField(
+                        controller: surnameController,
+                        hintText: ProfilePageText.yourSurname,
+                      ),
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      updateNames();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const BottomNavBarPage(
-                                  index: 3,
-                                )),
-                      );
-                    },
-                    child: Text(ProfilePageText.updateName),
-                  ),
-                ],
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(AppRadius.normalValue),
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            updateNames();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const BottomNavBarPage()),
+                            );
+                          },
+                          child: Text(ProfilePageText.updateName),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -195,6 +205,17 @@ class _ProfilePageState extends State<ProfilePage> {
         height: deviceHeight * 0.2,
         width: deviceWidth * 0.45,
         color: Theme.of(context).primaryColor,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(name?.substring(0, 1) ?? "",
+                style: Theme.of(context).textTheme.headline1!.copyWith(
+                    color: Colors.white, fontWeight: FontWeight.w500)),
+            Text(surname?.substring(0, 1) ?? "",
+                style: Theme.of(context).textTheme.headline1!.copyWith(
+                    color: Colors.white, fontWeight: FontWeight.w500)),
+          ],
+        ),
       ),
     );
   }

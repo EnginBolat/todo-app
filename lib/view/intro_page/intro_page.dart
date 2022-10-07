@@ -19,7 +19,7 @@ class IntroPage extends StatelessWidget {
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding:  EdgeInsets.all(AppPadding.maxValue),
+            padding: EdgeInsets.all(AppPadding.maxValue),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,7 +75,7 @@ class IntroPage extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const BottomNavBarPage(index: 0)));
+                      builder: (context) => const BottomNavBarPage()));
             } else {
               return;
             }

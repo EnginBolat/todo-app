@@ -39,13 +39,12 @@ class _NavigatorPageState extends State<NavigatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading == true
-          ? CircularProgressIndicator(
-              color: Theme.of(context).primaryColor,
-            )
-          : isLogin != true
-              ? IntroPage()
-              : const BottomNavBarPage(index: 0),
-    );
+        body: isLoading == true
+            ? CircularProgressIndicator(
+                color: Theme.of(context).primaryColor,
+              )
+            : isLogin != true
+                ? IntroPage()
+                : const BottomNavBarPage());
   }
 }
