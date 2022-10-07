@@ -7,6 +7,7 @@ abstract class IPostService {
   Future<List<Todo>> getAllNotes();
   Future<List<Todo>> getDoneTodos();
   Future<void> changeIsDone(note);
+  Future<Todo> getTodoById(id);
 }
 
 class DatabaseService implements IPostService {
@@ -53,5 +54,12 @@ class DatabaseService implements IPostService {
   @override
   Future<void> changeIsDone(note) {
     return TodoDatabase.instance.update(note);
+  }
+
+  @override
+  Future<Todo> getTodoById(id) async {
+    Todo item = await TodoDatabase.instance.readNote(id);
+    Future.delayed(const Duration(seconds: 1));
+    return item;
   }
 }

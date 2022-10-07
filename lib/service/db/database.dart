@@ -50,7 +50,6 @@ CREATE TABLE $tableNotes (
 
   Future<Todo> readNote(int id) async {
     final db = await instance.database;
-
     final maps = await db.query(
       tableNotes,
       columns: TodoFields.values,
