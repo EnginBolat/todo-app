@@ -1,4 +1,7 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:todo_app/constants/app_padding.dart';
 import 'package:todo_app/model/todo_model.dart';
 import 'package:todo_app/service/shared/shared_service.dart';
@@ -25,6 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
   late List<Todo> _todoList;
   TextEditingController nameController = TextEditingController();
   TextEditingController surnameController = TextEditingController();
+  late double percent;
 
   void getDatas() async {
     changeIsLoading();
@@ -46,6 +50,11 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     getDatas();
+    changePercent();
+  }
+
+  void changePercent() async {
+    percent = await calcTodoPercent();
   }
 
   void updateNames() {
@@ -102,13 +111,43 @@ class _ProfilePageState extends State<ProfilePage> {
                       deviceHeight: deviceHeight,
                       coefficient: 0.02,
                     ),
-                    BuildAllInfoBox(
-                      title: ProfilePageText.allTodo,
-                      deviceHeight: deviceHeight,
-                      deviceWidth: deviceWidth,
-                      coefficientHeight: 0.15,
-                      coefficientWidth: 0.85,
-                      counter: (_todoList.length + _todoDoneList.length),
+                    ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(AppRadius.normalValue),
+                      child: Container(
+                          width: deviceHeight * 0.4,
+                          height: deviceHeight * 0.15,
+                          color: Theme.of(context).primaryColor,
+                          child: Padding(
+                            padding: EdgeInsets.all(AppPadding.normalValue),
+                            child: Row(
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: CircularPercentIndicator(
+                                    radius: 48.0,
+                                    lineWidth: 6.0,
+                                    animation: true,
+                                    percent: percent.isNaN ? 0 : percent,
+                                    center: Text(
+                                      percent.isNaN
+                                          ? '${((percent = 0) * 100).round()}%'
+                                          : '${(percent * 100).round()}%',
+                                      style: const TextStyle(
+                                          color: Colors.white, fontSize: 10),
+                                    ),
+                                    backgroundColor: Colors.white,
+                                    progressColor: Colors.orangeAccent,
+                                  ),
+                                ),
+                                const SizedBox(width: 20),
+                                Text(
+                                  ProfilePageText.jobsPercent,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          )),
                     ),
                   ],
                 ),
@@ -142,7 +181,6 @@ class _ProfilePageState extends State<ProfilePage> {
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        
         return Scaffold(
           body: SingleChildScrollView(
             child: Padding(
@@ -153,9 +191,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SpacerWidget(deviceHeight: MediaQuery.of(context).size.height ,coefficient: 0.05),
-                    const Text("İsimini Güncelle!"),
-                    SpacerWidget(deviceHeight: MediaQuery.of(context).size.height ,coefficient: 0.05),
+                    SpacerWidget(
+                        deviceHeight: MediaQuery.of(context).size.height,
+                        coefficient: 0.05),
+                    Text(UpdateNamePage.updateName),
+                    SpacerWidget(
+                        deviceHeight: MediaQuery.of(context).size.height,
+                        coefficient: 0.05),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: CustomTextField(
@@ -171,7 +213,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(AppRadius.normalValue),
+                      borderRadius:
+                          BorderRadius.circular(AppRadius.normalValue),
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height * 0.05,
                         width: MediaQuery.of(context).size.width * 0.9,
@@ -181,7 +224,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const BottomNavBarPage()),
+                                  builder: (context) =>
+                                      const BottomNavBarPage()),
                             );
                           },
                           child: Text(ProfilePageText.updateName),
@@ -221,8 +265,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-
-
 
 class BuildInfoBox extends StatelessWidget {
   const BuildInfoBox({
@@ -275,57 +317,6 @@ class BuildInfoBox extends StatelessWidget {
   }
 }
 
-class BuildAllInfoBox extends StatelessWidget {
-  const BuildAllInfoBox({
-    Key? key,
-    required this.deviceHeight,
-    required this.deviceWidth,
-    required this.counter,
-    required this.title,
-    required this.coefficientHeight,
-    required this.coefficientWidth,
-  }) : super(key: key);
-
-  final double deviceHeight;
-  final double deviceWidth;
-  final double coefficientHeight;
-  final double coefficientWidth;
-  final String title;
-  final int counter;
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        color: Theme.of(context).primaryColor,
-        height: deviceHeight * coefficientHeight,
-        width: deviceWidth * coefficientWidth,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(title,
-                style: Theme.of(context).textTheme.headline6!.copyWith(
-                      color: Colors.white,
-                    ),
-                textAlign: TextAlign.center),
-            SpacerWidget(
-              deviceHeight: deviceHeight,
-              coefficient: 0.01,
-            ),
-            Text(
-              counter.toString(),
-              style: Theme.of(context).textTheme.headline6!.copyWith(
-                    color: Colors.white,
-                  ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
     Key? key,
@@ -346,4 +337,11 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
     );
   }
+}
+
+Future<double> calcTodoPercent() async {
+  List<Todo> allTodo = await DatabaseService().getAllNotes();
+  List<Todo> doneTodo = await DatabaseService().getDoneTodos();
+  double percent = doneTodo.length / allTodo.length;
+  return (doneTodo == 0 && allTodo == 0) ? 0 : percent;
 }
