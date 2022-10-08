@@ -110,11 +110,11 @@ class _EditTodoPageState extends State<EditTodoPage> {
                 child: ElevatedButton(
                   onPressed: () async {
                     updateTodo();
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const BottomNavBarPage()),
-                    );
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                BottomNavBarPage()));
                   },
                   child: const Text(
                     "Güncelle",
