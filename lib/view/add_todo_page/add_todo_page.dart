@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:todo_app/constants/app_radius.dart';
 import 'package:todo_app/model/todo_model.dart';
 import 'package:todo_app/service/db/database_service.dart';
+import 'package:todo_app/widgets/spacer_widget.dart';
 
 import '../../constants/app_padding.dart';
 import '../../constants/app_text.dart';
@@ -70,57 +71,64 @@ class _AddTodoPageState extends State<AddTodoPage> {
   @override
   Widget build(BuildContext context) {
     final double deviceHeight = MediaQuery.of(context).size.height;
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: deviceHeight * .6,
-        child: Padding(
-          padding: EdgeInsets.all(AppPadding.minValue),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  Text(
-                    AddTodoPageText.addSometingTodo,
-                    style: Theme.of(context).textTheme.headline5!.copyWith(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w800,
-                        ),
-                  ),
-                  _buildSpace(deviceHeight * 0.025),
-                  AddTodoTextField(
-                    hintText: AddTodoPageText.title,
-                    controller: titleController,
-                  ),
-                  _buildSpace(deviceHeight * 0.015),
-                  AddTodoDescTextField(
-                    hintText: AddTodoPageText.desc,
-                    controller: descController,
-                  ),
-                  _buildSpace(deviceHeight * 0.015),
-                  SizedBox(
-                    height: deviceHeight * 0.08,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            _selectedDate == DateTime.now()
-                                ? dateFormat.format(DateTime.now())
-                                : '${AddTodoPageText.chosendate}: ${dateFormat.format(_selectedDate)}',
+    return Scaffold(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        reverse: true,
+        child: SizedBox(
+          height: deviceHeight * 0.6,
+          child: Padding(
+            padding: EdgeInsets.all(AppPadding.minValue),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  children: [
+                    SpacerWidget(
+                        deviceHeight: deviceHeight, coefficient: 0.05),
+                    Text(
+                      AddTodoPageText.addSometingTodo,
+                      style: Theme.of(context).textTheme.headline5!.copyWith(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w800,
                           ),
-                        ),
-                        TextButton(
-                          onPressed: _presentDatePicker,
-                          child: Text(AddTodoPageText.selectDate),
-                        ),
-                      ],
                     ),
-                  ),
-                ],
-              ),
-              _buildAddTodoButton(deviceHeight * 0.05),
-            ],
+                    _buildSpace(deviceHeight * 0.025),
+                    AddTodoTextField(
+                      hintText: AddTodoPageText.title,
+                      controller: titleController,
+                    ),
+                    _buildSpace(deviceHeight * 0.015),
+                    AddTodoDescTextField(
+                      hintText: AddTodoPageText.desc,
+                      controller: descController,
+                    ),
+                    _buildSpace(deviceHeight * 0.015),
+                    SizedBox(
+                      height: deviceHeight * 0.08,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              _selectedDate == DateTime.now()
+                                  ? dateFormat.format(DateTime.now())
+                                  : '${AddTodoPageText.chosendate}: ${dateFormat.format(_selectedDate)}',
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: _presentDatePicker,
+                            child: Text(AddTodoPageText.selectDate),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                _buildAddTodoButton(deviceHeight * 0.07),
+              ],
+            ),
           ),
         ),
       ),
@@ -141,7 +149,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
                 descController.text,
                 _selectedDate,
               );
-              Navigator.pushReplacement(
+              Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const BottomNavBarPage()),
