@@ -8,6 +8,7 @@ import 'package:todo_app/service/db/database_service.dart';
 import 'package:todo_app/service/shared/shared_service.dart';
 import 'package:todo_app/view/todo_details_page/todo_details_page.dart';
 import 'package:todo_app/widgets/slidable_action_pane.dart';
+import 'package:todo_app/widgets/spacer_widget.dart';
 
 import '../../constants/app_padding.dart';
 import '../../constants/app_radius.dart';
@@ -56,7 +57,6 @@ class _HomePageState extends State<HomePage> {
     return BlocProvider(
       create: (context) => TodoCubit()..getData(),
       child: Scaffold(
-        appBar: AppBar(),
         body: BlocConsumer<TodoCubit, TodoState>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -83,6 +83,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              SpacerWidget(deviceHeight: deviceHeight, coefficient: 0.07),
               _buildTitleText(deviceHeight, context),
               SizedBox(
                 height: deviceHeight * 0.03,
@@ -153,10 +154,6 @@ class _HomePageState extends State<HomePage> {
               ),
               child: GestureDetector(
                 onTap: () async {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => TodoDetailsPage(id: item.id!)));
                   _buildBottomSheet(context, item.id!);
                 },
                 child: TodoListTileWidget(
@@ -226,9 +223,13 @@ class _HomePageState extends State<HomePage> {
 
 Future<dynamic> _buildBottomSheet(BuildContext ctx, int id) {
   return showModalBottomSheet(
+    isScrollControlled: true,
     context: ctx,
     builder: (bctx) {
-      return TodoDetailsPage(id: id);
+      return FractionallySizedBox(
+        heightFactor: 0.7,
+        child: TodoDetailsPage(id: id),
+      );
     },
   );
 }
