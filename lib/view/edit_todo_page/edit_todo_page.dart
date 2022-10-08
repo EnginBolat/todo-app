@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/service/db/database_service.dart';
-import 'package:todo_app/view/home_page/home_page.dart';
 import 'package:todo_app/widgets/spacer_widget.dart';
 
 import '../../constants/app_padding.dart';
 import '../../model/todo_model.dart';
 import '../../widgets/text_date_format.dart';
+import '../bottom_nav_bar_page/bottom_nav_bar_page.dart';
 
 class EditTodoPage extends StatefulWidget {
-  EditTodoPage({Key? key, required this.id}) : super(key: key);
+  const EditTodoPage({Key? key, required this.id}) : super(key: key);
   final int id;
 
   @override
@@ -111,9 +111,10 @@ class _EditTodoPageState extends State<EditTodoPage> {
                   onPressed: () async {
                     updateTodo();
                     Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()));
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BottomNavBarPage()),
+                    );
                   },
                   child: const Text(
                     "Güncelle",
@@ -127,11 +128,14 @@ class _EditTodoPageState extends State<EditTodoPage> {
     );
   }
 
-  void updateTodo() async {
-    await DatabaseService().updateTodo(
-      item!.title,
-      item!.description,
-      currentDate ?? item!.createdDate,
-    );
+  Future updateTodo() async {
+    final todo = item!.copy(
+        isDone: item!.isDone,
+        createdDate: currentDate ?? item!.createdDate,
+        description: descController.text,
+        id: item!.id,
+        title: titleController.text);
+
+    await DatabaseService().updateTodo(todo);
   }
 }
