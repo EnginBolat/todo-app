@@ -11,6 +11,7 @@ import '../../constants/app_text.dart';
 import '../../service/cubit/todo_cubit.dart';
 import '../../service/db/database_service.dart';
 import '../../widgets/slidable_action_pane.dart';
+import '../../widgets/spacer_widget.dart';
 import '../../widgets/todo_list_tile.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -39,7 +40,6 @@ class _CalendarPageState extends State<CalendarPage> {
     return BlocProvider(
       create: (context) => TodoCubit()..getCalendarPageData(),
       child: Scaffold(
-        appBar: AppBar(),
         body: BlocConsumer<TodoCubit, TodoState>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -69,6 +69,7 @@ class _CalendarPageState extends State<CalendarPage> {
       padding: EdgeInsets.only(top: AppPadding.minValue),
       child: Column(
         children: [
+          SpacerWidget(deviceHeight: deviceHeight, coefficient: 0.05),
           _buildCalendar(state),
           Padding(
             padding: EdgeInsets.all(AppPadding.minValue),
@@ -98,7 +99,7 @@ class _CalendarPageState extends State<CalendarPage> {
       child: Column(
         children: [
           SizedBox(
-            height: (deviceHeight * 0.7) - 364,
+            height: (deviceHeight * 0.75) - 364,
             child: ListView.builder(
               itemCount: state.listTodo?.length,
               itemBuilder: (context, index) {
