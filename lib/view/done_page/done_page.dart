@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app/view/todo_details_page/todo_details_page.dart';
 
 import '../../constants/app_padding.dart';
 import '../../constants/app_radius.dart';
@@ -126,11 +127,16 @@ class _DonePageState extends State<DonePage> {
                 ),
               ],
             ),
-            child: TodoListTileWidget(
-              dateFormat: dateFormat,
-              title: item.title,
-              createDate: item.createdDate,
-              borderRadius: AppRadius.minValue,
+            child: GestureDetector(
+              onTap: () {
+                _buildBottomSheet(context,item.id ?? 0);
+                 },
+              child: TodoListTileWidget(
+                dateFormat: dateFormat,
+                title: item.title,
+                createDate: item.createdDate,
+                borderRadius: AppRadius.minValue,
+              ),
             ),
           );
         },
@@ -175,6 +181,15 @@ class _DonePageState extends State<DonePage> {
           const Icon(Icons.date_range, size: 32),
         ],
       ),
+    );
+  }
+
+  Future<dynamic> _buildBottomSheet(BuildContext ctx, int id) {
+    return showModalBottomSheet(
+      context: ctx,
+      builder: (bctx) {
+        return TodoDetailsPage(id: id);
+      },
     );
   }
 }
