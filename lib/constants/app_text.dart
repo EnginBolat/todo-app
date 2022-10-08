@@ -53,6 +53,11 @@ class ProfilePageText {
   static String yourName = "Adınız...";
   static String yourSurname = "Soyadınız...";
   static String updateName = "Güncelle!";
+  static String jobsPercent = "Tamamlanan İş Yüzdeniz";
+}
+
+class UpdateNamePage{
+  static String updateName = "İsmini Güncelle!";
 }
 
 class BlocErrorText {
