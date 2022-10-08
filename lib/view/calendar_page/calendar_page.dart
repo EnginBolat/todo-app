@@ -168,7 +168,9 @@ class _CalendarPageState extends State<CalendarPage> {
   TableCalendar<dynamic> _buildCalendar(TodoCalendarPageData state) {
     return TableCalendar(
       firstDay: state.listTodo!.isNotEmpty
-          ? state.listTodo![0].createdDate
+          ? state.listTodo![0].createdDate.day > DateTime.now().day
+              ? DateTime.now()
+              : state.listTodo![0].createdDate
           : DateTime.now(),
       lastDay: state.listTodo!.isNotEmpty
           ? state.listTodo![(state.listTodo!.length - 1)].createdDate
