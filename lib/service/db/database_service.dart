@@ -10,7 +10,7 @@ abstract class IPostService {
   Future<List<Todo>> getDoneTodos();
   Future<void> changeIsDone(note);
   Future<Todo> getTodoById(id);
-  Future<void> updateTodo(title, description, createdDate);
+  Future<void> updateTodo(Todo todo);
 }
 
 class DatabaseService implements IPostService {
@@ -67,13 +67,7 @@ class DatabaseService implements IPostService {
   }
 
   @override
-  Future<void> updateTodo(title, description, createdDate) async {
-    final note = Todo(
-      title: title,
-      isDone: false,
-      description: description,
-      createdDate: createdDate,
-    );
-    await TodoDatabase.instance.update(note);
+  Future<void> updateTodo(Todo todo) async {
+    await TodoDatabase.instance.update(todo);
   }
 }
