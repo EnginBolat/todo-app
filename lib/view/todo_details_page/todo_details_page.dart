@@ -172,7 +172,10 @@ Future<dynamic> _buildBottomSheet(BuildContext ctx, int id) {
   return showModalBottomSheet(
     context: ctx,
     builder: (bctx) {
-      return EditTodoPage(id: id);
+      return FractionallySizedBox(
+        heightFactor: 2,
+        child: EditTodoPage(id: id),
+      );
     },
   );
 }
