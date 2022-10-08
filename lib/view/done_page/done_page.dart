@@ -11,6 +11,7 @@ import '../../constants/app_text.dart';
 import '../../service/cubit/todo_cubit.dart';
 import '../../service/db/database_service.dart';
 import '../../widgets/slidable_action_pane.dart';
+import '../../widgets/spacer_widget.dart';
 import '../../widgets/todo_list_tile.dart';
 
 class DonePage extends StatefulWidget {
@@ -36,7 +37,6 @@ class _DonePageState extends State<DonePage> {
     return BlocProvider(
       create: (context) => TodoCubit()..getDoneData(),
       child: Scaffold(
-        appBar: AppBar(),
         body: BlocConsumer<TodoCubit, TodoState>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -63,6 +63,7 @@ class _DonePageState extends State<DonePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              SpacerWidget(deviceHeight: deviceHeight, coefficient: 0.07),
               _buildJobsText(context),
               _buildJobCounter(state.listTodo.length, context),
               SizedBox(
@@ -129,8 +130,8 @@ class _DonePageState extends State<DonePage> {
             ),
             child: GestureDetector(
               onTap: () {
-                _buildBottomSheet(context,item.id ?? 0);
-                 },
+                _buildBottomSheet(context, item.id ?? 0);
+              },
               child: TodoListTileWidget(
                 dateFormat: dateFormat,
                 title: item.title,
