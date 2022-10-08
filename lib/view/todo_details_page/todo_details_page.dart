@@ -30,7 +30,7 @@ class TodoDetailsPage extends StatelessWidget {
               padding: EdgeInsets.all(AppPadding.minValue),
               child: IconButton(
                 onPressed: () {
-                  _buildBottomSheet(context,id);
+                  _buildBottomSheet(context, id);
                   // Navigator.push(
                   //     context,
                   //     MaterialPageRoute(
@@ -168,11 +168,11 @@ class TodoDetailsPage extends StatelessWidget {
       Center(child: Text(state.errorMessage));
 }
 
-Future<dynamic> _buildBottomSheet(BuildContext ctx,int id) {
+Future<dynamic> _buildBottomSheet(BuildContext ctx, int id) {
   return showModalBottomSheet(
     context: ctx,
     builder: (bctx) {
-      return EditTodoPage(id:id);
+      return EditTodoPage(id: id);
     },
   );
 }
