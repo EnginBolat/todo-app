@@ -38,6 +38,14 @@ android {
         jvmTarget = '1.8'
     }
 
+<<<<<<< HEAD
+=======
+    lintOptions {
+        disable 'InvalidPackage'
+        checkReleaseBuilds false //<- add this line
+    }
+
+>>>>>>> 12d7cda (New Folder Push)
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
