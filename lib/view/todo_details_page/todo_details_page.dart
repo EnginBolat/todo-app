@@ -31,10 +31,6 @@ class TodoDetailsPage extends StatelessWidget {
               child: IconButton(
                 onPressed: () {
                   _buildBottomSheet(context, id);
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => EditTodoPage(id: id)));
                 },
                 icon: const Icon(Icons.edit),
                 color: Colors.black,
@@ -69,20 +65,6 @@ class TodoDetailsPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FittedBox(
-              child: Text(
-                item?.title.toUpperCase() ?? "",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5!
-                    .copyWith(fontWeight: FontWeight.w600),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SpacerWidget(
-              deviceHeight: MediaQuery.of(context).size.height,
-              coefficient: 0.05,
-            ),
             ClipRRect(
               borderRadius: BorderRadius.circular(
                 AppRadius.maxValue,
@@ -95,12 +77,16 @@ class TodoDetailsPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "AÇIKLAMA",
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
+                      FittedBox(
+                        child: Text(
+                          item?.title.toUpperCase() ?? "",
+                          style:
+                              Theme.of(context).textTheme.headline5!.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                       SpacerWidget(
                         deviceHeight: deviceHeight,
@@ -173,7 +159,7 @@ Future<dynamic> _buildBottomSheet(BuildContext ctx, int id) {
     context: ctx,
     builder: (bctx) {
       return FractionallySizedBox(
-        heightFactor: 2,
+        heightFactor: 1.5,
         child: EditTodoPage(id: id),
       );
     },
