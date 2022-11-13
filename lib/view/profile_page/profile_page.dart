@@ -35,8 +35,8 @@ class _ProfilePageState extends State<ProfilePage> {
     changeIsLoading();
     name = await service.getName();
     surname = await service.getSurname();
-    _todoList = await DatabaseService().getAllNotes();
-    _todoDoneList = await DatabaseService().getDoneTodos();
+    _todoList = await DatabaseService().getUncompletedTodos();
+    _todoDoneList = await DatabaseService().getCompletedTodos();
     Future.delayed(const Duration(seconds: 2));
     changeIsLoading();
   }
@@ -342,8 +342,8 @@ class CustomTextField extends StatelessWidget {
 
 Future<double> calcTodoPercent() async {
   // double percent = calcPercent();
-  List<Todo> allTodo = await DatabaseService().getAllNotes(); // Yapılacaklar
-  List<Todo> doneTodo = await DatabaseService().getDoneTodos(); // Yapılmışlar
+  List<Todo> allTodo = await DatabaseService().getUncompletedTodos(); // Yapılacaklar
+  List<Todo> doneTodo = await DatabaseService().getCompletedTodos(); // Yapılmışlar
   double percent = doneTodo.length / (doneTodo.length + allTodo.length);
   if (kDebugMode) {
     print(percent);
