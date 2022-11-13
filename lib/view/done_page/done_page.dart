@@ -69,9 +69,15 @@ class _DonePageState extends State<DonePage> {
               SizedBox(
                 height: deviceHeight * 0.02,
               ),
-              state.listTodo.isNotEmpty
-                  ? _buildDoneTodoListView(deviceHeight, state)
-                  : _buildIfNoJobAvalible(deviceHeight, context),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  state.listTodo.isNotEmpty
+                      ? _buildDoneTodoListView(deviceHeight, state)
+                      : _buildIfNoJobAvalible(deviceHeight, context),
+                ],
+              ),
             ],
           ),
         ),
@@ -158,15 +164,17 @@ class _DonePageState extends State<DonePage> {
     );
   }
 
-  SizedBox _buildIfNoJobAvalible(double deviceHeight, BuildContext context) {
-    return SizedBox(
-      height: deviceHeight * 0.5,
-      child: Align(
-        alignment: Alignment.center,
-        child: Text(
-          DonePageText.complateSomeTodo,
-          style: Theme.of(context).textTheme.headline3,
-          textAlign: TextAlign.center,
+  Padding _buildIfNoJobAvalible(double deviceHeight, BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: AppPadding.maxValue),
+      child: SizedBox(
+        height: deviceHeight * 0.4,
+        child: Align(
+          alignment: Alignment.center,
+          child: Image.asset(
+            "lib/assets/images/waiting.png",
+            opacity: const AlwaysStoppedAnimation(.5),
+          ),
         ),
       ),
     );
