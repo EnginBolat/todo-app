@@ -38,21 +38,13 @@ android {
         jvmTarget = '1.8'
     }
 
-<<<<<<< HEAD
-=======
-    lintOptions {
-        disable 'InvalidPackage'
-        checkReleaseBuilds false //<- add this line
-    }
-
->>>>>>> 12d7cda (New Folder Push)
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.todo_app"
+        applicationId "com.example.todop"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion flutter.minSdkVersion
@@ -75,5 +67,5 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }

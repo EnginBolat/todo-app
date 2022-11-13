@@ -3,10 +3,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-<<<<<<< HEAD
         jcenter()
-=======
->>>>>>> 12d7cda (New Folder Push)
     }
 
     dependencies {
@@ -19,10 +16,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-<<<<<<< HEAD
         jcenter()
-=======
->>>>>>> 12d7cda (New Folder Push)
     }
 }
 
