@@ -243,14 +243,13 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  ClipRRect _buildProfilePhoto(
+  SizedBox _buildProfilePhoto(
       double deviceHeight, double deviceWidth, BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(AppRadius.profileRadius),
-      child: Container(
-        height: deviceHeight * 0.2,
-        width: deviceWidth * 0.45,
-        color: Theme.of(context).primaryColor,
+    return SizedBox(
+      height: deviceHeight * 0.2,
+      width: deviceWidth * 0.45,
+      child: CircleAvatar(
+        backgroundColor: Theme.of(context).primaryColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -342,8 +341,10 @@ class CustomTextField extends StatelessWidget {
 
 Future<double> calcTodoPercent() async {
   // double percent = calcPercent();
-  List<Todo> allTodo = await DatabaseService().getUncompletedTodos(); // Yapılacaklar
-  List<Todo> doneTodo = await DatabaseService().getCompletedTodos(); // Yapılmışlar
+  List<Todo> allTodo =
+      await DatabaseService().getUncompletedTodos(); // Yapılacaklar
+  List<Todo> doneTodo =
+      await DatabaseService().getCompletedTodos(); // Yapılmışlar
   double percent = doneTodo.length / (doneTodo.length + allTodo.length);
   if (kDebugMode) {
     print(percent);
