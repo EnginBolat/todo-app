@@ -25,7 +25,7 @@ class IntroPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 _buildImage(),
-                _buildSpace(50),
+                _buildSpace(20),
                 Text(
                   IntroPageText.welcome,
                   style: Theme.of(context).textTheme.headline3!.copyWith(
@@ -88,10 +88,10 @@ class IntroPage extends StatelessWidget {
 
   SizedBox _buildImage() {
     return SizedBox(
-      height: 250,
-      width: 250,
-      child: Image.network(
-        "https://picsum.photos/200",
+      height: 128,
+      width: 128,
+      child: Image.asset(
+        'lib/assets/images/todo-icon.png',
       ),
     );
   }
