@@ -12,7 +12,7 @@ class TodoCubit extends Cubit<TodoState> {
 
   Future<void> getData() async {
     try {
-      emit(TodoGetData(await DatabaseService().getAllNotes()));
+      emit(TodoGetData(await DatabaseService().getUncompletedTodos()));
     } catch (e) {
       emit(
         TodoGetDataError(BlocErrorText.dataCantFetch),
@@ -22,7 +22,7 @@ class TodoCubit extends Cubit<TodoState> {
 
   Future<void> getDoneData() async {
     try {
-      emit(TodoDoneData(await DatabaseService().getDoneTodos()));
+      emit(TodoDoneData(await DatabaseService().getCompletedTodos()));
     } catch (e) {
       emit(
         TodoGetDataError(BlocErrorText.dataCantFetch),
@@ -32,7 +32,7 @@ class TodoCubit extends Cubit<TodoState> {
 
   Future<void> getCalendarPageData() async {
     try {
-      emit(TodoCalendarPageData(await DatabaseService().getAllNotes()));
+      emit(TodoCalendarPageData(await DatabaseService().getUncompletedTodos()));
     } catch (e) {
       emit(
         TodoGetDataError(BlocErrorText.dataCantFetch),

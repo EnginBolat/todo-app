@@ -48,7 +48,7 @@ CREATE TABLE $tableNotes (
     return note.copy(id: id);
   }
 
-  Future<Todo> readNote(int id) async {
+  Future<Todo> readTodo(int id) async {
     final db = await instance.database;
     final maps = await db.query(
       tableNotes,
@@ -64,7 +64,7 @@ CREATE TABLE $tableNotes (
     }
   }
 
-  Future<List<Todo>> readAllNotes() async {
+  Future<List<Todo>> readAllTodos() async {
     final db = await instance.database;
 
     const orderBy = '${TodoFields.createdDate} ASC';

@@ -6,8 +6,8 @@ import 'database.dart';
 abstract class IPostService {
   Future<void> addDataToDatabase(title, description, createdDate);
   Future<void> deleteTodo(id);
-  Future<List<Todo>> getAllNotes();
-  Future<List<Todo>> getDoneTodos();
+  Future<List<Todo>> getUncompletedTodos();
+  Future<List<Todo>> getCompletedTodos();
   Future<void> changeIsDone(note);
   Future<Todo> getTodoById(id);
   Future<void> updateTodo(Todo todo);
@@ -31,8 +31,8 @@ class DatabaseService implements IPostService {
   }
 
   @override
-  Future<List<Todo>> getAllNotes() async {
-    List<Todo> todos = await TodoDatabase.instance.readAllNotes();
+  Future<List<Todo>> getUncompletedTodos() async {
+    List<Todo> todos = await TodoDatabase.instance.readAllTodos();
     List<Todo> isDoneFalse = [];
     for (var i = 0; i < todos.length; i++) {
       if (todos[i].isDone == false) {
@@ -43,8 +43,8 @@ class DatabaseService implements IPostService {
   }
 
   @override
-  Future<List<Todo>> getDoneTodos() async {
-    List<Todo> todos = await TodoDatabase.instance.readAllNotes();
+  Future<List<Todo>> getCompletedTodos() async {
+    List<Todo> todos = await TodoDatabase.instance.readAllTodos();
     List<Todo> isDoneTrue = [];
     for (var i = 0; i < todos.length; i++) {
       if (todos[i].isDone != false) {
@@ -61,7 +61,7 @@ class DatabaseService implements IPostService {
 
   @override
   Future<Todo> getTodoById(id) async {
-    Todo item = await TodoDatabase.instance.readNote(id);
+    Todo item = await TodoDatabase.instance.readTodo(id);
     Future.delayed(const Duration(seconds: 1));
     return item;
   }
