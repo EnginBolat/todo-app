@@ -1,5 +1,6 @@
 // ignore_for_file: unrelated_type_equality_checks
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:todo_app/constants/app_padding.dart';
@@ -28,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
   late List<Todo> _todoList;
   TextEditingController nameController = TextEditingController();
   TextEditingController surnameController = TextEditingController();
-  late double percent;
+  double percent = 0;
 
   void getDatas() async {
     changeIsLoading();
@@ -137,7 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           color: Colors.white, fontSize: 10),
                                     ),
                                     backgroundColor: Colors.white,
-                                    progressColor: Colors.orangeAccent,
+                                    progressColor: Colors.purpleAccent,
                                   ),
                                 ),
                                 const SizedBox(width: 20),
@@ -254,10 +255,10 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(name?.substring(0, 1) ?? "",
-                style: Theme.of(context).textTheme.headline1!.copyWith(
+                style: Theme.of(context).textTheme.headline2!.copyWith(
                     color: Colors.white, fontWeight: FontWeight.w500)),
             Text(surname?.substring(0, 1) ?? "",
-                style: Theme.of(context).textTheme.headline1!.copyWith(
+                style: Theme.of(context).textTheme.headline2!.copyWith(
                     color: Colors.white, fontWeight: FontWeight.w500)),
           ],
         ),
@@ -340,8 +341,19 @@ class CustomTextField extends StatelessWidget {
 }
 
 Future<double> calcTodoPercent() async {
-  List<Todo> allTodo = await DatabaseService().getAllNotes();
-  List<Todo> doneTodo = await DatabaseService().getDoneTodos();
-  double percent = doneTodo.length / allTodo.length;
-  return (doneTodo == 0 && allTodo == 0) ? 0 : percent;
+  // double percent = calcPercent();
+  List<Todo> allTodo = await DatabaseService().getAllNotes(); // Yapılacaklar
+  List<Todo> doneTodo = await DatabaseService().getDoneTodos(); // Yapılmışlar
+  double percent = doneTodo.length / (doneTodo.length + allTodo.length);
+  if (kDebugMode) {
+    print(percent);
+  }
+  if (percent == 0) {
+    percent = 0.toDouble();
+  } else if (percent > 0) {
+    percent = percent.toDouble();
+  } else {
+    percent = 0;
+  }
+  return percent;
 }
