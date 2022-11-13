@@ -7,7 +7,7 @@ ToDo App I made with Flutter.
 Things To Do
 
 ```bash
-  ❌ Splash Screen
+  ✅ Splash Screen
   ✅ Intro Screen
   ✅ Add Todo Page
   ✅ Home Screen
@@ -30,6 +30,8 @@ Dependencies
   sqflite: https://www.pub.dev/packages/sqflite
   flutter_slidable: https://pub.dev/packages/flutter_slidable
   table_calendar:https://pub.dev/packages/table_calendar
+  percent_indicator:https://pub.dev/packages/percent_indicator
+  flutter_native_splash:https://pub.dev/packages/flutter_native_splash
 ```
 
 ## Run Locally
