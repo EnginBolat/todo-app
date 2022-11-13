@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:todo_app/service/cubit/todo_cubit.dart';
-import 'package:todo_app/view/intro_page/intro_page.dart';
 import 'constants/app_text.dart';
 import 'constants/app_theme.dart';
 import 'view/navigator_page/navigator_page.dart';

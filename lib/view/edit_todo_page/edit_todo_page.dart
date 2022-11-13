@@ -114,7 +114,7 @@ class _EditTodoPageState extends State<EditTodoPage> {
                         context,
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                BottomNavBarPage()));
+                                const BottomNavBarPage()));
                   },
                   child: const Text(
                     "Güncelle",

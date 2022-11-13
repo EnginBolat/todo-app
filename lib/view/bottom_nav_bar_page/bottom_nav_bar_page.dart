@@ -6,9 +6,6 @@ import 'package:todo_app/view/home_page/home_page.dart';
 import 'package:todo_app/view/profile_page/profile_page.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
-import '../../constants/app_radius.dart';
-import '../todo_details_page/todo_details_page.dart';
-
 class BottomNavBarPage extends StatefulWidget {
   const BottomNavBarPage({Key? key}) : super(key: key);
 
