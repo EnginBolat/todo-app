@@ -59,5 +59,11 @@ Run App
 ```bash
   flutter run
 ```
-
-
+<img src="https://github.com/EnginBolat/todo-app/assets/59659276/e39ac05d-df91-40a6-aeb2-aec7f43c2e2d" width="420" height="720">
+<img src="https://github.com/EnginBolat/todo-app/assets/59659276/a563b7aa-6a35-4185-b9d3-421674eebe76" width="420" height="720">
+<img src="https://github.com/EnginBolat/todo-app/assets/59659276/0537210f-e4b2-4429-ba22-0045d718b3f4" width="420" height="720">
+<img src="https://github.com/EnginBolat/todo-app/assets/59659276/881d95d4-ecd3-4410-8851-c165d891c105" width="420" height="720">
+<img src="https://github.com/EnginBolat/todo-app/assets/59659276/3dd52279-db2a-447b-b97f-d2b14fac8b9e" width="420" height="720">
+<img src="https://github.com/EnginBolat/todo-app/assets/59659276/9f644c84-8a1c-44d5-92ad-acc2c6396d32" width="420" height="720">
+<img src="https://github.com/EnginBolat/todo-app/assets/59659276/3548a029-9b4c-47b1-b915-8af0f2fa71af" width="420" height="720">
+<img src="https://github.com/EnginBolat/todo-app/assets/59659276/679e3095-a84a-46d7-9345-78abd9402a56" width="420" height="720">
