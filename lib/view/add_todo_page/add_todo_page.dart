@@ -73,10 +73,9 @@ class _AddTodoPageState extends State<AddTodoPage> {
     final double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        reverse: true,
+        physics: const BouncingScrollPhysics(),
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: SizedBox(
-          height: deviceHeight * 0.6,
           child: Padding(
             padding: EdgeInsets.all(AppPadding.minValue),
             child: Column(
@@ -85,14 +84,16 @@ class _AddTodoPageState extends State<AddTodoPage> {
               children: [
                 Column(
                   children: [
-                    SpacerWidget(
-                        deviceHeight: deviceHeight, coefficient: 0.05),
-                    Text(
-                      AddTodoPageText.addSometingTodo,
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w800,
-                          ),
+                    SpacerWidget(deviceHeight: deviceHeight, coefficient: 0.05),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        AddTodoPageText.addSometingTodo,
+                        style: Theme.of(context).textTheme.headline5!.copyWith(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w800,
+                            ),
+                      ),
                     ),
                     _buildSpace(deviceHeight * 0.025),
                     AddTodoTextField(
@@ -108,13 +109,12 @@ class _AddTodoPageState extends State<AddTodoPage> {
                     SizedBox(
                       height: deviceHeight * 0.08,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(
-                            child: Text(
-                              _selectedDate == DateTime.now()
-                                  ? dateFormat.format(DateTime.now())
-                                  : '${AddTodoPageText.chosendate}: ${dateFormat.format(_selectedDate)}',
-                            ),
+                          Text(
+                            _selectedDate == DateTime.now()
+                                ? dateFormat.format(DateTime.now())
+                                : '${AddTodoPageText.chosendate}: ${dateFormat.format(_selectedDate)}',
                           ),
                           TextButton(
                             onPressed: _presentDatePicker,
@@ -125,8 +125,8 @@ class _AddTodoPageState extends State<AddTodoPage> {
                     ),
                   ],
                 ),
-                const Spacer(),
-                _buildAddTodoButton(deviceHeight * 0.07),
+                    _buildSpace(deviceHeight * 0.015),
+                _buildAddTodoButton(deviceHeight * 0.09),
               ],
             ),
           ),

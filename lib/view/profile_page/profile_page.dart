@@ -116,8 +116,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       borderRadius:
                           BorderRadius.circular(AppRadius.normalValue),
                       child: Container(
-                          width: deviceHeight * 0.4,
-                          height: deviceHeight * 0.15,
+                          width: deviceWidth* 0.85,
+                          height: deviceHeight * 0.2,
                           color: Theme.of(context).primaryColor,
                           child: Padding(
                             padding: EdgeInsets.all(AppPadding.normalValue),
@@ -125,26 +125,30 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: [
                                 Align(
                                   alignment: Alignment.centerLeft,
-                                  child: CircularPercentIndicator(
-                                    radius: 48.0,
-                                    lineWidth: 6.0,
-                                    animation: true,
-                                    percent: percent.isNaN ? 0 : percent,
-                                    center: Text(
-                                      percent.isNaN
-                                          ? '${((percent = 0) * 100).round()}%'
-                                          : '${(percent * 100).round()}%',
-                                      style: const TextStyle(
-                                          color: Colors.white, fontSize: 10),
+                                  child: Expanded(
+                                    child: CircularPercentIndicator(
+                                      radius: 48.0,
+                                      lineWidth: 6.0,
+                                      animation: true,
+                                      percent: percent.isNaN ? 0 : percent,
+                                      center: Text(
+                                        percent.isNaN
+                                            ? '${((percent = 0) * 100).round()}%'
+                                            : '${(percent * 100).round()}%',
+                                        style: const TextStyle(
+                                            color: Colors.white, fontSize: 10),
+                                      ),
+                                      backgroundColor: Colors.white,
+                                      progressColor: Colors.purpleAccent,
                                     ),
-                                    backgroundColor: Colors.white,
-                                    progressColor: Colors.purpleAccent,
                                   ),
                                 ),
                                 const SizedBox(width: 20),
-                                Text(
-                                  ProfilePageText.jobsPercent,
-                                  style: const TextStyle(color: Colors.white),
+                                Expanded(
+                                  child: Text(
+                                    ProfilePageText.jobsPercent,
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
                                 ),
                               ],
                             ),
